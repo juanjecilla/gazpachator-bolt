@@ -1,0 +1,190 @@
+import React, { useState, useEffect } from 'react';
+import { IngredientInput } from './components/IngredientInput';
+import { ProportionEditor } from './components/ProportionEditor';
+import { VolumeEstimator } from './components/VolumeEstimator';
+import { ExportShare } from './components/ExportShare';
+import { MadeItCounter } from './components/MadeItCounter';
+import { ThemeLanguageSelector } from './components/ThemeLanguageSelector';
+import { KofiButton } from './components/KofiButton';
+import { RecipeCalculatorService, DefaultCalculationStrategy, CustomCalculationStrategy } from './services/RecipeCalculator';
+import { useTheme } from './hooks/useTheme';
+import { useLanguage } from './hooks/useLanguage';
+import { Recipe, CustomProportions } from './types/Recipe';
+import { ChefHat } from 'lucide-react';
+
+function App() {
+  const { theme, changeTheme } = useTheme();
+  const { language, changeLanguage, t } = useLanguage();
+  
+  const [recipe, setRecipe] = useState<Recipe>({ ingredients: [], totalVolume: 0 });
+  const [isCustom, setIsCustom] = useState(false);
+  const [customProportions, setCustomProportions] = useState<CustomProportions>({
+    cucumber: 333.33,
+    greenPepper: 166.67,
+    garlic: 12,
+    oliveOil: 15,
+    salt: 6,
+    vinegar: 18
+  });
+  
+  const [calculator] = useState(() => new RecipeCalculatorService());
+
+  // Initialize recipe
+  useEffect(() => {
+    const initialRecipe = calculator.calculateRecipe(1000); // 1000g = 1kg
+    setRecipe(initialRecipe);
+  }, [calculator]);
+
+  // Update calculation strategy when custom mode changes
+  useEffect(() => {
+    const strategy = isCustom 
+      ? new CustomCalculationStrategy() 
+      : new DefaultCalculationStrategy();
+    calculator.setStrategy(strategy);
+    
+    const tomatoAmount = recipe.ingredients.find(ing => ing.id === 'tomato')?.amount || 1000;
+    const newRecipe = calculator.calculateRecipe(tomatoAmount, isCustom ? customProportions : undefined);
+    setRecipe(newRecipe);
+  }, [isCustom, customProportions, calculator]);
+
+  const handleIngredientChange = (ingredientId: string, newAmount: number) => {
+    const updatedIngredients = calculator.updateIngredientAmount(
+      recipe.ingredients, 
+      ingredientId, 
+      newAmount,
+      isCustom ? customProportions : undefined
+    );
+    
+    const newRecipe = {
+      ingredients: updatedIngredients,
+      totalVolume: calculator.calculateRecipe(
+        updatedIngredients.find(ing => ing.id === 'tomato')?.amount || 1000,
+        isCustom ? customProportions : undefined
+      ).totalVolume
+    };
+    
+    setRecipe(newRecipe);
+  };
+
+  const handleToggleCustom = () => {
+    setIsCustom(!isCustom);
+  };
+
+  const handleProportionsChange = (newProportions: CustomProportions) => {
+    setCustomProportions(newProportions);
+  };
+
+  const handleResetProportions = () => {
+    setCustomProportions({
+      cucumber: 333.33,
+      greenPepper: 166.67,
+      garlic: 12,
+      oliveOil: 15,
+      salt: 6,
+      vinegar: 18
+    });
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-50 
+                    dark:from-amber-900 dark:via-yellow-900 dark:to-orange-900 
+                    transition-colors duration-300">
+      {/* Ancient parchment texture overlay */}
+      <div className="fixed inset-0 opacity-20 dark:opacity-10 pointer-events-none"
+           style={{
+             backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-opacity='0.1'%3E%3Cpolygon fill='%23F59E0B' points='50 0 60 40 100 50 60 60 50 100 40 60 0 50 40 40'/%3E%3C/g%3E%3C/svg%3E")`,
+             backgroundSize: '100px 100px'
+           }} />
+      
+      <div className="container mx-auto px-4 py-8 relative z-10">
+        {/* Header */}
+        <header className="text-center mb-12">
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <ChefHat className="text-amber-600 dark:text-amber-400" size={48} />
+            <div>
+              <h1 className="text-4xl md:text-5xl font-bold text-amber-900 dark:text-amber-100 
+                           tracking-tight leading-tight">
+                {t('title')}
+              </h1>
+              <p className="text-lg text-amber-700 dark:text-amber-300 font-medium mt-2">
+                {t('subtitle')}
+              </p>
+            </div>
+          </div>
+          
+          <div className="max-w-2xl mx-auto border-t border-b border-amber-300 dark:border-amber-600 py-4">
+            <ThemeLanguageSelector 
+              theme={theme}
+              language={language}
+              onThemeChange={changeTheme}
+              onLanguageChange={changeLanguage}
+              t={t}
+            />
+          </div>
+        </header>
+
+        <div className="max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Main Recipe Panel */}
+            <div className="lg:col-span-2">
+              <div className="bg-amber-50/95 dark:bg-amber-900/95 backdrop-blur-sm rounded-xl 
+                            shadow-2xl border-2 border-amber-200 dark:border-amber-700 p-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                  {recipe.ingredients.map(ingredient => (
+                    <IngredientInput
+                      key={ingredient.id}
+                      ingredient={ingredient}
+                      label={t(ingredient.name)}
+                      onChange={handleIngredientChange}
+                    />
+                  ))}
+                </div>
+
+                <div className="border-t border-amber-200 dark:border-amber-700 pt-6">
+                  <ProportionEditor
+                    isCustom={isCustom}
+                    proportions={customProportions}
+                    onToggleCustom={handleToggleCustom}
+                    onProportionsChange={handleProportionsChange}
+                    onReset={handleResetProportions}
+                    t={t}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Side Panel */}
+            <div className="space-y-6">
+              <VolumeEstimator volume={recipe.totalVolume} t={t} />
+              
+              <KofiButton t={t} />
+              
+              <div className="bg-amber-50/95 dark:bg-amber-900/95 backdrop-blur-sm rounded-xl 
+                            shadow-xl border-2 border-amber-200 dark:border-amber-700 p-6">
+                <h3 className="font-semibold text-amber-900 dark:text-amber-100 mb-4 text-center">
+                  Actions
+                </h3>
+                <div className="space-y-4">
+                  <ExportShare recipe={recipe} t={t} />
+                  <div className="border-t border-amber-200 dark:border-amber-700 pt-4">
+                    <MadeItCounter t={t} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <footer className="text-center mt-16 text-sm text-amber-600 dark:text-amber-400">
+          <div className="border-t border-amber-300 dark:border-amber-600 pt-6 max-w-2xl mx-auto">
+            <p>Traditional Spanish Gazpacho Recipe Calculator</p>
+            <p className="mt-1 opacity-75">Preserving culinary heritage through technology</p>
+          </div>
+        </footer>
+      </div>
+    </div>
+  );
+}
+
+export default App;
