@@ -21,13 +21,13 @@ describe('DefaultCalculationStrategy', () => {
     const ingredients = strategy.calculate(1000);
 
     expect(ingredients).toHaveLength(7);
-    expect(ingredients.find(i => i.id === 'tomato')?.amount).toBe(1000);
-    expect(ingredients.find(i => i.id === 'cucumber')?.amount).toBeCloseTo(333.33, 1);
-    expect(ingredients.find(i => i.id === 'greenPepper')?.amount).toBeCloseTo(166.67, 1);
-    expect(ingredients.find(i => i.id === 'garlic')?.amount).toBe(12);
-    expect(ingredients.find(i => i.id === 'oliveOil')?.amount).toBe(15);
-    expect(ingredients.find(i => i.id === 'salt')?.amount).toBe(6);
-    expect(ingredients.find(i => i.id === 'vinegar')?.amount).toBe(18);
+    expect(ingredients.find((i) => i.id === 'tomato')?.amount).toBe(1000);
+    expect(ingredients.find((i) => i.id === 'cucumber')?.amount).toBeCloseTo(333.33, 1);
+    expect(ingredients.find((i) => i.id === 'greenPepper')?.amount).toBeCloseTo(166.67, 1);
+    expect(ingredients.find((i) => i.id === 'garlic')?.amount).toBe(12);
+    expect(ingredients.find((i) => i.id === 'oliveOil')?.amount).toBe(15);
+    expect(ingredients.find((i) => i.id === 'salt')?.amount).toBe(6);
+    expect(ingredients.find((i) => i.id === 'vinegar')?.amount).toBe(18);
   });
 
   it('scales linearly for 500g tomato', () => {
@@ -43,7 +43,7 @@ describe('DefaultCalculationStrategy', () => {
   it('all ingredients have correct units', () => {
     const strategy = new DefaultCalculationStrategy();
     const ingredients = strategy.calculate(1000);
-    ingredients.forEach(ing => expect(ing.unit).toBe('g'));
+    ingredients.forEach((ing) => expect(ing.unit).toBe('g'));
   });
 });
 
@@ -60,8 +60,8 @@ describe('CustomCalculationStrategy', () => {
     };
     const ingredients = strategy.calculate(1000, customProps);
 
-    expect(ingredients.find(i => i.id === 'cucumber')?.amount).toBe(500);
-    expect(ingredients.find(i => i.id === 'garlic')?.amount).toBe(20);
+    expect(ingredients.find((i) => i.id === 'cucumber')?.amount).toBe(500);
+    expect(ingredients.find((i) => i.id === 'garlic')?.amount).toBe(20);
   });
 });
 
@@ -91,8 +91,8 @@ describe('RecipeCalculatorService', () => {
     const recipe = service.calculateRecipe(1000);
     const updated = service.updateIngredientAmount(recipe.ingredients, 'tomato', 500);
 
-    const tomato = updated.find(i => i.id === 'tomato');
-    const cucumber = updated.find(i => i.id === 'cucumber');
+    const tomato = updated.find((i) => i.id === 'tomato');
+    const cucumber = updated.find((i) => i.id === 'cucumber');
 
     expect(tomato?.amount).toBe(500);
     expect(cucumber?.amount).toBeCloseTo(333.33 / 2, 0);
@@ -100,12 +100,16 @@ describe('RecipeCalculatorService', () => {
 
   it('updateIngredientAmount: changing cucumber recalculates tomato proportionally', () => {
     const recipe = service.calculateRecipe(1000);
-    const cucumberProportion = recipe.ingredients.find(i => i.id === 'cucumber')!.proportion;
+    const cucumberProportion = recipe.ingredients.find((i) => i.id === 'cucumber')!.proportion;
     const newCucumberAmount = 200;
     const expectedTomato = newCucumberAmount / cucumberProportion;
 
-    const updated = service.updateIngredientAmount(recipe.ingredients, 'cucumber', newCucumberAmount);
-    const newTomato = updated.find(i => i.id === 'tomato')?.amount;
+    const updated = service.updateIngredientAmount(
+      recipe.ingredients,
+      'cucumber',
+      newCucumberAmount
+    );
+    const newTomato = updated.find((i) => i.id === 'tomato')?.amount;
 
     expect(newTomato).toBeCloseTo(expectedTomato, 1);
   });
@@ -124,7 +128,7 @@ describe('RecipeCalculatorService', () => {
     };
 
     const recipe = service.calculateRecipe(1000, customProportions);
-    expect(recipe.ingredients.find(i => i.id === 'cucumber')?.amount).toBe(600);
+    expect(recipe.ingredients.find((i) => i.id === 'cucumber')?.amount).toBe(600);
   });
 });
 
