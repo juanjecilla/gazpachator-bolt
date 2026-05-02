@@ -37,6 +37,11 @@ function App() {
 
   const [calculator] = useState(() => new RecipeCalculatorService());
 
+  // Sync html[lang] with selected language
+  useEffect(() => {
+    document.documentElement.lang = language;
+  }, [language]);
+
   // Initialize recipe
   useEffect(() => {
     const initialRecipe = calculator.calculateRecipe(1000); // 1000g = 1kg

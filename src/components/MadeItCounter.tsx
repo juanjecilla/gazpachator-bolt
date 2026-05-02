@@ -30,6 +30,7 @@ export const MadeItCounter: React.FC<MadeItCounterProps> = ({ t }) => {
       <button
         onClick={handleMadeIt}
         disabled={hasUserMadeIt}
+        aria-pressed={hasUserMadeIt}
         className={`flex transform items-center gap-2 rounded-full px-6 py-3 font-semibold transition-all duration-300 hover:scale-105 ${
           hasUserMadeIt
             ? 'cursor-default bg-amber-100 text-amber-600 dark:bg-amber-900/20 dark:text-amber-400'

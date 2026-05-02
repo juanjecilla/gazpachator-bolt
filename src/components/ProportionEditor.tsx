@@ -102,15 +102,27 @@ export const ProportionEditor: React.FC<ProportionEditorProps> = ({
 
       {/* Popup Modal */}
       {showPopup && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
-          <div className="max-h-[90vh] w-full max-w-md overflow-y-auto rounded-xl border-2 border-amber-300 bg-amber-50 shadow-2xl dark:border-amber-600 dark:bg-amber-900">
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4"
+          onClick={(e) => e.target === e.currentTarget && setShowPopup(false)}
+        >
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="proportion-editor-title"
+            className="max-h-[90vh] w-full max-w-md overflow-y-auto rounded-xl border-2 border-amber-300 bg-amber-50 shadow-2xl dark:border-amber-600 dark:bg-amber-900"
+          >
             <div className="p-6">
               <div className="mb-6 flex items-center justify-between">
-                <h3 className="text-xl font-bold text-amber-900 dark:text-amber-100">
+                <h3
+                  id="proportion-editor-title"
+                  className="text-xl font-bold text-amber-900 dark:text-amber-100"
+                >
                   Custom Recipe Proportions
                 </h3>
                 <button
                   onClick={() => setShowPopup(false)}
+                  aria-label="Close"
                   className="text-amber-400 hover:text-amber-600 dark:hover:text-amber-300"
                 >
                   <X size={24} />
