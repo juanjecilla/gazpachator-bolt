@@ -11,36 +11,27 @@ export const KofiButton: React.FC<KofiButtonProps> = ({ t }) => {
   };
 
   return (
-    <div className="bg-gradient-to-r from-pink-50 to-red-50 dark:from-pink-900/20 dark:to-red-900/20 
-                    rounded-lg p-4 border border-pink-200 dark:border-pink-700">
-      <div className="text-center mb-3">
-        <div className="flex items-center justify-center gap-2 mb-2">
+    <div className="rounded-lg border border-pink-200 bg-gradient-to-r from-pink-50 to-red-50 p-4 dark:border-pink-700 dark:from-pink-900/20 dark:to-red-900/20">
+      <div className="mb-3 text-center">
+        <div className="mb-2 flex items-center justify-center gap-2">
           <Heart className="text-pink-600 dark:text-pink-400" size={20} />
           <span className="text-sm font-medium text-pink-800 dark:text-pink-200">
             {t('supportJuanje')}
           </span>
         </div>
-        <p className="text-xs text-pink-600 dark:text-pink-400 mb-3">
-          {t('helpImprove')}
-        </p>
+        <p className="mb-3 text-xs text-pink-600 dark:text-pink-400">{t('helpImprove')}</p>
       </div>
-      
+
       <button
         onClick={handleKofiClick}
-        className="w-full flex items-center justify-center gap-2 px-4 py-3 
-                   bg-gradient-to-r from-pink-500 to-red-500 hover:from-pink-600 hover:to-red-600
-                   text-white font-semibold rounded-lg shadow-lg hover:shadow-xl
-                   transform hover:scale-105 transition-all duration-200
-                   focus:ring-2 focus:ring-pink-500 focus:ring-offset-2"
+        className="flex w-full transform items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-pink-500 to-red-500 px-4 py-3 font-semibold text-white shadow-lg transition-all duration-200 hover:scale-105 hover:from-pink-600 hover:to-red-600 hover:shadow-xl focus:ring-2 focus:ring-pink-500 focus:ring-offset-2"
       >
         <Coffee size={18} />
         <span>{t('buyJuanjeCoffee')}</span>
       </button>
-      
+
       <div className="mt-2 text-center">
-        <span className="text-xs text-pink-600 dark:text-pink-400">
-          {t('supportKofi')}
-        </span>
+        <span className="text-xs text-pink-600 dark:text-pink-400">{t('supportKofi')}</span>
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { StorageService } from '../services/StorageService';
 import { translations } from '../data/translations';
-import { Language, Translation } from '../types/Recipe';
+import type { Language } from '../types/Recipe';
 
 export const useLanguage = () => {
   const [language, setLanguage] = useState<Language>('en');

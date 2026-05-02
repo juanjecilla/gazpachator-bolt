@@ -30,22 +30,18 @@ export const MadeItCounter: React.FC<MadeItCounterProps> = ({ t }) => {
       <button
         onClick={handleMadeIt}
         disabled={hasUserMadeIt}
-        className={`flex items-center gap-2 px-6 py-3 rounded-full font-semibold
-                   transition-all duration-300 transform hover:scale-105
-                   ${hasUserMadeIt 
-                     ? 'bg-amber-100 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 cursor-default' 
-                     : 'bg-amber-500 hover:bg-amber-600 text-white shadow-lg hover:shadow-xl'
-                   }`}
+        className={`flex transform items-center gap-2 rounded-full px-6 py-3 font-semibold transition-all duration-300 hover:scale-105 ${
+          hasUserMadeIt
+            ? 'cursor-default bg-amber-100 text-amber-600 dark:bg-amber-900/20 dark:text-amber-400'
+            : 'bg-amber-500 text-white shadow-lg hover:bg-amber-600 hover:shadow-xl'
+        }`}
       >
-        <Heart 
-          size={20} 
-          className={hasUserMadeIt ? 'fill-current' : ''} 
-        />
+        <Heart size={20} className={hasUserMadeIt ? 'fill-current' : ''} />
         {hasUserMadeIt ? '¡Hecho!' : t('madeIt')}
       </button>
-      
+
       <div className="mt-2 text-sm text-amber-700 dark:text-amber-300">
-        <span className="font-bold text-lg">{count}</span> {t('madeItCount')}
+        <span className="text-lg font-bold">{count}</span> {t('madeItCount')}
       </div>
     </div>
   );

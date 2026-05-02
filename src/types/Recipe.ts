@@ -13,12 +13,12 @@ export interface Recipe {
 }
 
 export interface CustomProportions {
-  cucumber: number;      // in grams per kg of tomato
-  greenPepper: number;   // in grams per kg of tomato
-  garlic: number;        // in grams per kg of tomato
-  oliveOil: number;      // in grams per kg of tomato
-  salt: number;          // in grams per kg of tomato
-  vinegar: number;       // in grams per kg of tomato
+  cucumber: number; // in grams per kg of tomato
+  greenPepper: number; // in grams per kg of tomato
+  garlic: number; // in grams per kg of tomato
+  oliveOil: number; // in grams per kg of tomato
+  salt: number; // in grams per kg of tomato
+  vinegar: number; // in grams per kg of tomato
 }
 
 export interface Translation {

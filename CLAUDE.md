@@ -32,37 +32,37 @@ git branch -d <type>/<slug>
 
 ## Phase → Branch Map
 
-| Phase | Branch |
-|-------|--------|
-| 0 Foundation | `chore/foundation` |
-| 1 Code Quality | `chore/code-quality` |
-| 2 Testing | `feat/testing` |
-| 3 CI/CD | `ci/github-pages` |
-| 4 SEO/A11y | `feat/seo-a11y` |
-| 5 PWA | `feat/pwa` |
-| 6 Recipe History | `feat/recipe-history` |
-| 7 Docs | `docs/overhaul` |
-| 8 Backend Docs | `docs/backend-alternatives` |
+| Phase            | Branch                      |
+| ---------------- | --------------------------- |
+| 0 Foundation     | `chore/foundation`          |
+| 1 Code Quality   | `chore/code-quality`        |
+| 2 Testing        | `feat/testing`              |
+| 3 CI/CD          | `ci/github-pages`           |
+| 4 SEO/A11y       | `feat/seo-a11y`             |
+| 5 PWA            | `feat/pwa`                  |
+| 6 Recipe History | `feat/recipe-history`       |
+| 7 Docs           | `docs/overhaul`             |
+| 8 Backend Docs   | `docs/backend-alternatives` |
 
 ---
 
 ## npm Scripts
 
-| Script | Purpose |
-|--------|---------|
-| `dev` | Vite dev server |
-| `build` | Production build |
-| `preview` | Preview dist |
-| `lint` | ESLint check |
-| `lint:fix` | ESLint autofix |
-| `format` | Prettier write |
-| `format:check` | Prettier check (CI) |
-| `type-check` | `tsc --noEmit` |
-| `test` | Vitest run (unit) |
-| `test:watch` | Vitest watch mode |
-| `test:coverage` | Vitest + v8 coverage |
-| `test:e2e` | Playwright end-to-end |
-| `test:e2e:ui` | Playwright UI mode |
+| Script          | Purpose               |
+| --------------- | --------------------- |
+| `dev`           | Vite dev server       |
+| `build`         | Production build      |
+| `preview`       | Preview dist          |
+| `lint`          | ESLint check          |
+| `lint:fix`      | ESLint autofix        |
+| `format`        | Prettier write        |
+| `format:check`  | Prettier check (CI)   |
+| `type-check`    | `tsc --noEmit`        |
+| `test`          | Vitest run (unit)     |
+| `test:watch`    | Vitest watch mode     |
+| `test:coverage` | Vitest + v8 coverage  |
+| `test:e2e`      | Playwright end-to-end |
+| `test:e2e:ui`   | Playwright UI mode    |
 
 ---
 
@@ -78,15 +78,15 @@ git branch -d <type>/<slug>
 
 ## localStorage Key Registry
 
-| Key | Type | Default | Added in |
-|-----|------|---------|----------|
-| `gazpacho-made-count` | number (string) | `"0"` | Phase 0 |
-| `gazpacho-theme` | `light\|dark\|system` | null | Phase 0 |
-| `gazpacho-language` | `en\|es\|fr\|de` | null | Phase 0 |
-| `user-made-it` | `"true"` | null | Phase 0 |
-| `gazpacho-saved-recipes` | JSON `SavedRecipe[]` | `"[]"` | Phase 6 |
-| `gazpacho-favorite-ids` | JSON `string[]` | `"[]"` | Phase 6 |
-| `gazpacho-storage-version` | number (string) | `"1"` | Phase 6 |
+| Key                        | Type                  | Default | Added in |
+| -------------------------- | --------------------- | ------- | -------- |
+| `gazpacho-made-count`      | number (string)       | `"0"`   | Phase 0  |
+| `gazpacho-theme`           | `light\|dark\|system` | null    | Phase 0  |
+| `gazpacho-language`        | `en\|es\|fr\|de`      | null    | Phase 0  |
+| `user-made-it`             | `"true"`              | null    | Phase 0  |
+| `gazpacho-saved-recipes`   | JSON `SavedRecipe[]`  | `"[]"`  | Phase 6  |
+| `gazpacho-favorite-ids`    | JSON `string[]`       | `"[]"`  | Phase 6  |
+| `gazpacho-storage-version` | number (string)       | `"1"`   | Phase 6  |
 
 **Rule:** No component calls `localStorage` directly. All storage goes through `StorageService`.
 
