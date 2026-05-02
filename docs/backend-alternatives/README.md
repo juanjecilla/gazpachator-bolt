@@ -1,13 +1,30 @@
-# Backend Alternatives for Made It Counter
+# Backend Alternatives for Global Counter
 
-The "Made It" counter currently uses `localStorage` (per-browser only). This directory documents three approaches for a real global counter shared across all users.
+The "Made It" counter and saved recipes use `localStorage` in v1.0 (per-browser only).
+This directory documents three approaches to make them truly global.
 
-> Full comparison and migration checklists added in Phase 8. Stub.
+## Comparison
 
-## Options
+| Option | File | Cost | Real-time | Complexity | PRs needed |
+|--------|------|------|-----------|------------|------------|
+| Firebase Firestore | [firebase.md](./firebase.md) | Free tier | Yes | Low | ~3 |
+| Supabase Postgres | [supabase.md](./supabase.md) | Free tier | Yes | Low | ~3 |
+| Cloudflare Worker | [serverless.md](./serverless.md) | Free | Yes | Medium | ~2 |
+| GitHub Actions JSON | [serverless.md](./serverless.md) | Free | No | Low | ~1 |
 
-| Option | File | Cost | Complexity |
-|--------|------|------|------------|
-| Firebase Firestore | [firebase.md](./firebase.md) | Free tier | Low |
-| Supabase Postgres | [supabase.md](./supabase.md) | Free tier | Low |
-| Serverless (CF Worker / GH Actions) | [serverless.md](./serverless.md) | Free | Medium |
+## Recommendation
+
+**Supabase** is the easiest migration path:
+- Postgres gives relational integrity (foreign keys, unique constraints)
+- Row Level Security means no custom auth middleware
+- Anonymous auth requires zero user signup
+- `@supabase/supabase-js` TypeScript types are excellent
+- Free tier covers Gazpachator indefinitely
+
+**Firebase** is equally valid if you prefer Google's ecosystem.
+
+**Cloudflare Worker** is best if you want zero database dependency and only need a counter (not per-user saved recipes).
+
+## See Also
+
+- [ADR 0001 — Why localStorage for v1](../adr/0001-localstorage-first.md)
