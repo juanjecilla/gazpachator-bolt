@@ -1,7 +1,15 @@
 {
-  "name": "vite-react-typescript-starter",
+  "name": "gazpachator",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "Juanje's Spanish Gazpacho recipe calculator — scale ingredients for any batch size",
+  "author": "Juanje Cilla <juanje.cilla@gmail.com>",
+  "license": "MIT",
+  "homepage": "https://juanjecilla.github.io/gazpachator-bolt",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/juanjecilla/gazpachator-bolt.git"
+  },
   "type": "module",
   "scripts": {
     "dev": "vite",

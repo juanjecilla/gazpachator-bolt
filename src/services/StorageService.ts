@@ -1,9 +1,9 @@
-// Singleton Pattern: Single instance for storage management
 export class StorageService {
   private static instance: StorageService;
   private readonly COUNTER_KEY = 'gazpacho-made-count';
   private readonly THEME_KEY = 'gazpacho-theme';
   private readonly LANGUAGE_KEY = 'gazpacho-language';
+  private readonly USER_MADE_IT_KEY = 'user-made-it';
 
   private constructor() {}
 
@@ -40,5 +40,13 @@ export class StorageService {
 
   setLanguage(language: string): void {
     localStorage.setItem(this.LANGUAGE_KEY, language);
+  }
+
+  getUserMadeIt(): boolean {
+    return localStorage.getItem(this.USER_MADE_IT_KEY) === 'true';
+  }
+
+  setUserMadeIt(): void {
+    localStorage.setItem(this.USER_MADE_IT_KEY, 'true');
   }
 }
