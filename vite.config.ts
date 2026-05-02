@@ -4,6 +4,7 @@ import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
 
 export default defineConfig({
+  base: process.env.GITHUB_ACTIONS ? '/gazpachator-bolt/' : '/',
   plugins: [react()],
   resolve: {
     alias: {
