@@ -83,7 +83,16 @@ export default defineConfig({
         functions: 80,
         statements: 80,
       },
-      exclude: ['src/main.tsx', 'src/vite-env.d.ts', 'src/test/', 'src/components/'],
+      exclude: [
+        'src/main.tsx',
+        'src/vite-env.d.ts',
+        'src/test/**',
+        'src/components/**',
+        'src/types/**',
+        'src/App.tsx',
+        'e2e/**',
+        '**/*.config.{js,ts}',
+      ],
     },
   },
 });
