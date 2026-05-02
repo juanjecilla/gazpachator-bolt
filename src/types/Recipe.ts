@@ -31,3 +31,15 @@ export interface LanguageData {
 
 export type Theme = 'light' | 'dark' | 'system';
 export type Language = 'en' | 'es' | 'fr' | 'de';
+
+export interface SavedRecipe {
+  id: string;
+  name: string;
+  createdAt: string;
+  tomatoAmount: number;
+  isCustom: boolean;
+  proportions: CustomProportions;
+  notes?: string;
+}
+
+export type FavoriteId = string;

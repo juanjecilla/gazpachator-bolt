@@ -6,6 +6,7 @@ import { ExportShare } from './components/ExportShare';
 import { MadeItCounter } from './components/MadeItCounter';
 import { ThemeLanguageSelector } from './components/ThemeLanguageSelector';
 import { KofiButton } from './components/KofiButton';
+import { RecipeHistoryPanel } from './components/RecipeHistoryPanel';
 import {
   RecipeCalculatorService,
   DefaultCalculationStrategy,
@@ -13,12 +14,15 @@ import {
 } from './services/RecipeCalculator';
 import { useTheme } from './hooks/useTheme';
 import { useLanguage } from './hooks/useLanguage';
-import type { Recipe, CustomProportions } from './types/Recipe';
+import { useRecipeHistory } from './hooks/useRecipeHistory';
+import type { Recipe, CustomProportions, SavedRecipe } from './types/Recipe';
 import { ChefHat } from 'lucide-react';
 
 function App() {
   const { theme, changeTheme } = useTheme();
   const { language, changeLanguage, t } = useLanguage();
+  const { savedRecipes, favoriteRecipes, nonFavoriteRecipes, saveRecipe, deleteRecipe, toggleFavorite, isFavorite } =
+    useRecipeHistory();
 
   const [recipe, setRecipe] = useState<Recipe>({ ingredients: [], totalVolume: 0 });
   const [isCustom, setIsCustom] = useState(false);
@@ -80,6 +84,20 @@ function App() {
 
   const handleProportionsChange = (newProportions: CustomProportions) => {
     setCustomProportions(newProportions);
+  };
+
+  const handleLoadRecipe = (saved: SavedRecipe) => {
+    setIsCustom(saved.isCustom);
+    setCustomProportions(saved.proportions);
+    const strategy = saved.isCustom
+      ? new CustomCalculationStrategy()
+      : new DefaultCalculationStrategy();
+    calculator.setStrategy(strategy);
+    const newRecipe = calculator.calculateRecipe(
+      saved.tomatoAmount,
+      saved.isCustom ? saved.proportions : undefined
+    );
+    setRecipe(newRecipe);
   };
 
   const handleResetProportions = () => {
@@ -162,6 +180,23 @@ function App() {
             {/* Side Panel */}
             <div className="space-y-6">
               <VolumeEstimator volume={recipe.totalVolume} t={t} />
+
+              <RecipeHistoryPanel
+                t={t}
+                currentTomatoAmount={
+                  recipe.ingredients.find((i) => i.id === 'tomato')?.amount ?? 1000
+                }
+                isCustom={isCustom}
+                currentProportions={customProportions}
+                savedRecipes={savedRecipes}
+                favoriteRecipes={favoriteRecipes}
+                nonFavoriteRecipes={nonFavoriteRecipes}
+                isFavorite={isFavorite}
+                onSave={saveRecipe}
+                onLoad={handleLoadRecipe}
+                onDelete={deleteRecipe}
+                onToggleFavorite={toggleFavorite}
+              />
 
               <KofiButton t={t} />
 
