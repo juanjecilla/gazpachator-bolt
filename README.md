@@ -35,39 +35,40 @@ npm run dev        # http://localhost:5173
 
 ## Available Scripts
 
-| Script | Purpose |
-|--------|---------|
-| `npm run dev` | Start Vite dev server |
-| `npm run build` | Production build |
-| `npm run preview` | Preview production build |
-| `npm run lint` | ESLint check |
-| `npm run lint:fix` | ESLint autofix |
-| `npm run format` | Prettier write |
-| `npm run format:check` | Prettier check (used in CI) |
-| `npm run type-check` | TypeScript check with no emit |
-| `npm run test` | Vitest unit tests |
-| `npm run test:watch` | Vitest watch mode |
-| `npm run test:coverage` | Vitest + v8 coverage report |
-| `npm run test:e2e` | Playwright end-to-end tests |
-| `npm run test:e2e:ui` | Playwright UI mode |
+| Script                  | Purpose                       |
+| ----------------------- | ----------------------------- |
+| `npm run dev`           | Start Vite dev server         |
+| `npm run build`         | Production build              |
+| `npm run preview`       | Preview production build      |
+| `npm run lint`          | ESLint check                  |
+| `npm run lint:fix`      | ESLint autofix                |
+| `npm run format`        | Prettier write                |
+| `npm run format:check`  | Prettier check (used in CI)   |
+| `npm run type-check`    | TypeScript check with no emit |
+| `npm run test`          | Vitest unit tests             |
+| `npm run test:watch`    | Vitest watch mode             |
+| `npm run test:coverage` | Vitest + v8 coverage report   |
+| `npm run test:e2e`      | Playwright end-to-end tests   |
+| `npm run test:e2e:ui`   | Playwright UI mode            |
 
 ## Tech Stack
 
-| | |
-|-|-|
-| **Framework** | React 18 + TypeScript 5.5 |
-| **Build** | Vite 5 |
-| **Styling** | Tailwind CSS 3 (class-based dark mode) |
-| **Icons** | Lucide React |
-| **PWA** | vite-plugin-pwa + Workbox |
-| **Testing** | Vitest + Testing Library + Playwright |
-| **CI/CD** | GitHub Actions → GitHub Pages |
+|               |                                        |
+| ------------- | -------------------------------------- |
+| **Framework** | React 18 + TypeScript 5.5              |
+| **Build**     | Vite 5                                 |
+| **Styling**   | Tailwind CSS 3 (class-based dark mode) |
+| **Icons**     | Lucide React                           |
+| **PWA**       | vite-plugin-pwa + Workbox              |
+| **Testing**   | Vitest + Testing Library + Playwright  |
+| **CI/CD**     | GitHub Actions → GitHub Pages          |
 
 ## Architecture
 
 See [`docs/architecture/overview.md`](docs/architecture/overview.md) for component hierarchy, service layer, and data flow.
 
 Key patterns:
+
 - **Strategy Pattern** — `RecipeCalculatorService` swaps `DefaultCalculationStrategy` ↔ `CustomCalculationStrategy`
 - **Singleton** — `StorageService` is the sole interface to `localStorage`
 - **Custom Hooks** — `useTheme`, `useLanguage`, `useRecipeHistory`

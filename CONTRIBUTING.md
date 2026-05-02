@@ -25,13 +25,13 @@ git worktree remove ../gazpachator-<slug>
 
 ## Branch Naming
 
-| Type | Pattern | Example |
-|------|---------|---------|
-| Feature | `feat/<slug>` | `feat/nutrition-info` |
-| Bug fix | `fix/<slug>` | `fix/dark-mode-flash` |
-| Documentation | `docs/<slug>` | `docs/api-reference` |
-| CI/infra | `ci/<slug>` | `ci/playwright-upgrade` |
-| Chore | `chore/<slug>` | `chore/dep-update` |
+| Type          | Pattern        | Example                 |
+| ------------- | -------------- | ----------------------- |
+| Feature       | `feat/<slug>`  | `feat/nutrition-info`   |
+| Bug fix       | `fix/<slug>`   | `fix/dark-mode-flash`   |
+| Documentation | `docs/<slug>`  | `docs/api-reference`    |
+| CI/infra      | `ci/<slug>`    | `ci/playwright-upgrade` |
+| Chore         | `chore/<slug>` | `chore/dep-update`      |
 
 ## PR Title Format
 
@@ -40,6 +40,7 @@ git worktree remove ../gazpachator-<slug>
 ```
 
 Examples:
+
 - `feat(recipe-history): add import/export as JSON`
 - `fix(storage): handle JSON parse error gracefully`
 - `docs(readme): add Lighthouse badge`

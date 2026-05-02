@@ -22,8 +22,15 @@ import { ChefHat } from 'lucide-react';
 function App() {
   const { theme, changeTheme } = useTheme();
   const { language, changeLanguage, t } = useLanguage();
-  const { savedRecipes, favoriteRecipes, nonFavoriteRecipes, saveRecipe, deleteRecipe, toggleFavorite, isFavorite } =
-    useRecipeHistory();
+  const {
+    savedRecipes,
+    favoriteRecipes,
+    nonFavoriteRecipes,
+    saveRecipe,
+    deleteRecipe,
+    toggleFavorite,
+    isFavorite,
+  } = useRecipeHistory();
 
   const [recipe, setRecipe] = useState<Recipe>({ ingredients: [], totalVolume: 0 });
   const [isCustom, setIsCustom] = useState(false);

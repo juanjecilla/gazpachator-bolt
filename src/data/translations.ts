@@ -127,7 +127,8 @@ export const translations: LanguageData = {
     deleteRecipe: 'Supprimer',
     favoriteRecipe: 'Favori',
     savedRecipes: 'Recettes enregistrées',
-    noSavedRecipes: 'Aucune recette enregistrée. Sauvegardez votre recette actuelle pour commencer !',
+    noSavedRecipes:
+      'Aucune recette enregistrée. Sauvegardez votre recette actuelle pour commencer !',
     confirmDelete: 'Supprimer cette recette ?',
     save: 'Enregistrer',
     cancel: 'Annuler',
