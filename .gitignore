@@ -23,3 +23,8 @@ dist-ssr
 *.sln
 *.sw?
 .env
+coverage
+playwright-report
+test-results
+public/sw.js
+public/workbox-*.js

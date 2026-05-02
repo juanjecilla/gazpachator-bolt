@@ -13,7 +13,7 @@ export const MadeItCounter: React.FC<MadeItCounterProps> = ({ t }) => {
 
   useEffect(() => {
     setCount(storage.getMadeCount());
-    setHasUserMadeIt(localStorage.getItem('user-made-it') === 'true');
+    setHasUserMadeIt(storage.getUserMadeIt());
   }, [storage]);
 
   const handleMadeIt = () => {
@@ -21,7 +21,7 @@ export const MadeItCounter: React.FC<MadeItCounterProps> = ({ t }) => {
       const newCount = storage.incrementMadeCount();
       setCount(newCount);
       setHasUserMadeIt(true);
-      localStorage.setItem('user-made-it', 'true');
+      storage.setUserMadeIt();
     }
   };
 
