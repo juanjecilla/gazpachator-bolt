@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://juanjecilla.github.io/gazpachator-bolt/sitemap.xml

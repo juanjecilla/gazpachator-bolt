@@ -33,15 +33,21 @@ export const ThemeLanguageSelector: React.FC<ThemeLanguageSelectorProps> = ({
   return (
     <div className="flex flex-wrap items-center justify-center gap-4">
       <div className="flex items-center gap-2">
-        <Sun className="text-amber-600 dark:text-amber-400" size={16} />
+        <Sun className="text-amber-600 dark:text-amber-400" size={16} aria-hidden="true" />
         <span className="text-sm font-medium text-amber-800 dark:text-amber-200">
           {t('theme')}:
         </span>
-        <div className="flex overflow-hidden rounded-md border border-amber-300 dark:border-amber-600">
+        <div
+          role="group"
+          aria-label={t('theme')}
+          className="flex overflow-hidden rounded-md border border-amber-300 dark:border-amber-600"
+        >
           {themes.map((themeOption) => (
             <button
               key={themeOption.value}
               onClick={() => onThemeChange(themeOption.value)}
+              aria-pressed={theme === themeOption.value}
+              aria-label={themeOption.label}
               className={`flex items-center gap-1 px-3 py-1 text-xs transition-colors ${
                 theme === themeOption.value
                   ? 'bg-amber-600 text-white'
