@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { StorageService } from '../services/StorageService';
-import { Theme } from '../types/Recipe';
+import type { Theme } from '../types/Recipe';
 
 export const useTheme = () => {
   const [theme, setTheme] = useState<Theme>('system');
@@ -19,20 +19,18 @@ export const useTheme = () => {
       let actualTheme: 'light' | 'dark';
 
       if (theme === 'system') {
-        actualTheme = window.matchMedia('(prefers-color-scheme: dark)').matches 
-          ? 'dark' 
-          : 'light';
+        actualTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
       } else {
         actualTheme = theme as 'light' | 'dark';
       }
 
       setResolvedTheme(actualTheme);
-      
+
       // Remove existing theme classes
       document.documentElement.classList.remove('light', 'dark');
       // Add the current theme class
       document.documentElement.classList.add(actualTheme);
-      
+
       // Also handle the 'dark' class for Tailwind compatibility
       if (actualTheme === 'dark') {
         document.documentElement.classList.add('dark');

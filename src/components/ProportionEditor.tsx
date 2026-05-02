@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CustomProportions } from '../types/Recipe';
+import type { CustomProportions } from '../types/Recipe';
 import { Settings, RotateCcw, Save, X } from 'lucide-react';
 
 interface ProportionEditorProps {
@@ -17,7 +17,7 @@ export const ProportionEditor: React.FC<ProportionEditorProps> = ({
   onToggleCustom,
   onProportionsChange,
   onReset,
-  t
+  t,
 }) => {
   const [showPopup, setShowPopup] = useState(false);
   const [tempProportions, setTempProportions] = useState<CustomProportions>(proportions);
@@ -38,7 +38,7 @@ export const ProportionEditor: React.FC<ProportionEditorProps> = ({
   const handleTempProportionChange = (key: keyof CustomProportions, value: number) => {
     setTempProportions({
       ...tempProportions,
-      [key]: value
+      [key]: value,
     });
   };
 
@@ -49,49 +49,42 @@ export const ProportionEditor: React.FC<ProportionEditorProps> = ({
       garlic: 12,
       oliveOil: 15,
       salt: 6,
-      vinegar: 18
+      vinegar: 18,
     };
     setTempProportions(defaultProportions);
   };
 
   return (
     <>
-      <div className="bg-gradient-to-br from-amber-100 to-yellow-100 dark:from-amber-900/30 dark:to-yellow-900/30 
-                      rounded-lg p-6 border border-amber-300 dark:border-amber-600 shadow-lg">
-        <div className="flex items-center justify-between mb-4">
+      <div className="rounded-lg border border-amber-300 bg-gradient-to-br from-amber-100 to-yellow-100 p-6 shadow-lg dark:border-amber-600 dark:from-amber-900/30 dark:to-yellow-900/30">
+        <div className="mb-4 flex items-center justify-between">
           <div className="flex items-center gap-2 text-amber-800 dark:text-amber-200">
             <Settings size={20} />
             <span className="font-semibold">{t('customProportions')}</span>
           </div>
-          
+
           <div className="flex items-center gap-2">
             <button
               onClick={handleOpenPopup}
-              className="px-3 py-1 text-sm bg-amber-600 hover:bg-amber-700 text-white 
-                       rounded-md transition-colors duration-200 shadow-sm"
+              className="rounded-md bg-amber-600 px-3 py-1 text-sm text-white shadow-sm transition-colors duration-200 hover:bg-amber-700"
             >
               Edit Recipe
             </button>
-            
-            <label className="flex items-center gap-2 cursor-pointer">
+
+            <label className="flex cursor-pointer items-center gap-2">
               <input
                 type="checkbox"
                 checked={isCustom}
                 onChange={onToggleCustom}
-                className="rounded border-amber-300 text-amber-600 
-                         focus:ring-amber-500 focus:ring-offset-0"
+                className="rounded border-amber-300 text-amber-600 focus:ring-amber-500 focus:ring-offset-0"
               />
-              <span className="text-sm text-amber-700 dark:text-amber-300">
-                {t('useCustom')}
-              </span>
+              <span className="text-sm text-amber-700 dark:text-amber-300">{t('useCustom')}</span>
             </label>
-            
+
             {isCustom && (
               <button
                 onClick={onReset}
-                className="flex items-center gap-1 px-2 py-1 text-xs text-amber-600 
-                         hover:text-amber-800 dark:text-amber-400 dark:hover:text-amber-200
-                         hover:bg-amber-200 dark:hover:bg-amber-800 rounded transition-colors"
+                className="flex items-center gap-1 rounded px-2 py-1 text-xs text-amber-600 transition-colors hover:bg-amber-200 hover:text-amber-800 dark:text-amber-400 dark:hover:bg-amber-800 dark:hover:text-amber-200"
               >
                 <RotateCcw size={12} />
                 {t('resetDefault')}
@@ -101,8 +94,7 @@ export const ProportionEditor: React.FC<ProportionEditorProps> = ({
         </div>
 
         {isCustom && (
-          <div className="text-sm text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20 
-                          rounded p-3 border border-amber-200 dark:border-amber-700">
+          <div className="rounded border border-amber-200 bg-amber-50 p-3 text-sm text-amber-600 dark:border-amber-700 dark:bg-amber-900/20 dark:text-amber-400">
             Using custom proportions. Click "Edit Recipe" to modify.
           </div>
         )}
@@ -110,10 +102,10 @@ export const ProportionEditor: React.FC<ProportionEditorProps> = ({
 
       {/* Popup Modal */}
       {showPopup && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-amber-50 dark:bg-amber-900 rounded-xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto border-2 border-amber-300 dark:border-amber-600">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
+          <div className="max-h-[90vh] w-full max-w-md overflow-y-auto rounded-xl border-2 border-amber-300 bg-amber-50 shadow-2xl dark:border-amber-600 dark:bg-amber-900">
             <div className="p-6">
-              <div className="flex items-center justify-between mb-6">
+              <div className="mb-6 flex items-center justify-between">
                 <h3 className="text-xl font-bold text-amber-900 dark:text-amber-100">
                   Custom Recipe Proportions
                 </h3>
@@ -125,7 +117,7 @@ export const ProportionEditor: React.FC<ProportionEditorProps> = ({
                 </button>
               </div>
 
-              <div className="text-sm text-amber-600 dark:text-amber-400 mb-4 p-3 bg-amber-100 dark:bg-amber-800/50 rounded border border-amber-200 dark:border-amber-700">
+              <div className="mb-4 rounded border border-amber-200 bg-amber-100 p-3 text-sm text-amber-600 dark:border-amber-700 dark:bg-amber-800/50 dark:text-amber-400">
                 {t('proportionHelper')}
               </div>
 
@@ -141,14 +133,13 @@ export const ProportionEditor: React.FC<ProportionEditorProps> = ({
                         step="0.1"
                         min="0"
                         value={value}
-                        onChange={(e) => handleTempProportionChange(
-                          key as keyof CustomProportions, 
-                          parseFloat(e.target.value) || 0
-                        )}
-                        className="w-20 px-3 py-2 border border-amber-300 dark:border-amber-600 
-                                 rounded-md bg-amber-50 dark:bg-amber-800/50
-                                 text-amber-900 dark:text-amber-100
-                                 focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+                        onChange={(e) =>
+                          handleTempProportionChange(
+                            key as keyof CustomProportions,
+                            parseFloat(e.target.value) || 0
+                          )
+                        }
+                        className="w-20 rounded-md border border-amber-300 bg-amber-50 px-3 py-2 text-amber-900 focus:border-amber-500 focus:ring-2 focus:ring-amber-500 dark:border-amber-600 dark:bg-amber-800/50 dark:text-amber-100"
                       />
                       <span className="text-sm text-amber-500 dark:text-amber-400">g</span>
                     </div>
@@ -156,32 +147,27 @@ export const ProportionEditor: React.FC<ProportionEditorProps> = ({
                 ))}
               </div>
 
-              <div className="flex gap-3 mt-6 pt-4 border-t border-amber-200 dark:border-amber-600">
+              <div className="mt-6 flex gap-3 border-t border-amber-200 pt-4 dark:border-amber-600">
                 <button
                   onClick={handleReset}
-                  className="flex items-center gap-2 px-4 py-2 text-amber-600 dark:text-amber-400
-                           hover:text-amber-800 dark:hover:text-amber-200 hover:bg-amber-100 
-                           dark:hover:bg-amber-700 rounded-md transition-colors"
+                  className="flex items-center gap-2 rounded-md px-4 py-2 text-amber-600 transition-colors hover:bg-amber-100 hover:text-amber-800 dark:text-amber-400 dark:hover:bg-amber-700 dark:hover:text-amber-200"
                 >
                   <RotateCcw size={16} />
                   Reset to Default
                 </button>
-                
+
                 <div className="flex-1"></div>
-                
+
                 <button
                   onClick={() => setShowPopup(false)}
-                  className="px-4 py-2 text-amber-600 dark:text-amber-400 hover:text-amber-800 
-                           dark:hover:text-amber-200 hover:bg-amber-100 dark:hover:bg-amber-700 
-                           rounded-md transition-colors"
+                  className="rounded-md px-4 py-2 text-amber-600 transition-colors hover:bg-amber-100 hover:text-amber-800 dark:text-amber-400 dark:hover:bg-amber-700 dark:hover:text-amber-200"
                 >
                   Cancel
                 </button>
-                
+
                 <button
                   onClick={handleSaveProportions}
-                  className="flex items-center gap-2 px-4 py-2 bg-amber-600 hover:bg-amber-700 
-                           text-white rounded-md transition-colors shadow-sm"
+                  className="flex items-center gap-2 rounded-md bg-amber-600 px-4 py-2 text-white shadow-sm transition-colors hover:bg-amber-700"
                 >
                   <Save size={16} />
                   Save & Apply
