@@ -7,6 +7,7 @@ import { MadeItCounter } from './components/MadeItCounter';
 import { ThemeLanguageSelector } from './components/ThemeLanguageSelector';
 import { KofiButton } from './components/KofiButton';
 import { RecipeHistoryPanel } from './components/RecipeHistoryPanel';
+import { PwaUpdatePrompt } from './components/PwaUpdatePrompt';
 import {
   RecipeCalculatorService,
   DefaultCalculationStrategy,
@@ -228,6 +229,7 @@ function App() {
           </div>
         </footer>
       </div>
+      <PwaUpdatePrompt />
     </div>
   );
 }
