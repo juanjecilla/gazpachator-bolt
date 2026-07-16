@@ -1,24 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { StorageService } from '../services/StorageService';
 import { translations } from '../data/translations';
 import type { Language } from '../types/Recipe';
 
 export const useLanguage = () => {
-  const [language, setLanguage] = useState<Language>('en');
   const storage = StorageService.getInstance();
-
-  useEffect(() => {
+  const [language, setLanguage] = useState<Language>(() => {
     const savedLanguage = storage.getLanguage() as Language;
     if (savedLanguage) {
-      setLanguage(savedLanguage);
-    } else {
-      // Detect browser language
-      const browserLang = navigator.language.split('-')[0] as Language;
-      if (translations[browserLang]) {
-        setLanguage(browserLang);
-      }
+      return savedLanguage;
     }
-  }, [storage]);
+    // Detect browser language
+    const browserLang = navigator.language.split('-')[0] as Language;
+    return translations[browserLang] ? browserLang : 'en';
+  });
 
   const changeLanguage = (newLanguage: Language) => {
     setLanguage(newLanguage);

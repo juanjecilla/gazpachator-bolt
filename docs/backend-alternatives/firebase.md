@@ -15,7 +15,7 @@ Firebase project
 ## SDK Install
 
 ```bash
-npm install firebase@^11
+pnpm install firebase@^11
 ```
 
 ## Firebase Config
@@ -63,7 +63,14 @@ Implement the same interface as `StorageService`:
 
 ```typescript
 // src/services/FirebaseStorageService.ts
-import { collection, addDoc, getDocs, deleteDoc, doc, getCountFromServer } from 'firebase/firestore';
+import {
+  collection,
+  addDoc,
+  getDocs,
+  deleteDoc,
+  doc,
+  getCountFromServer,
+} from 'firebase/firestore';
 import { db, ensureAuth } from '../lib/firebase';
 import type { SavedRecipe } from '../types/Recipe';
 
@@ -84,7 +91,7 @@ export class FirebaseStorageService {
   async getSavedRecipes(): Promise<SavedRecipe[]> {
     const user = await ensureAuth();
     const snap = await getDocs(collection(db, `users/${user.user.uid}/recipes`));
-    return snap.docs.map((d) => ({ id: d.id, ...d.data() } as SavedRecipe));
+    return snap.docs.map((d) => ({ id: d.id, ...d.data() }) as SavedRecipe);
   }
 
   // ... deleteRecipe, getFavoriteIds, toggleFavorite analogous
@@ -96,7 +103,7 @@ export class FirebaseStorageService {
 1. Create Firebase project at console.firebase.google.com
 2. Enable Firestore + Anonymous Auth
 3. Deploy security rules above
-4. `npm install firebase@^11`
+4. `pnpm install firebase@^11`
 5. Create `src/lib/firebase.ts` with your config
 6. Implement `FirebaseStorageService` implementing same interface
 7. Add feature flag: `VITE_USE_FIREBASE=true` in `.env.local`
@@ -111,5 +118,6 @@ export class FirebaseStorageService {
 ## Cost
 
 Free tier (Spark plan) covers Gazpachator traffic indefinitely:
+
 - Firestore: 50k reads + 20k writes/day free
 - Auth: 10k/month free

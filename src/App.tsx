@@ -32,7 +32,8 @@ function App() {
     isFavorite,
   } = useRecipeHistory();
 
-  const [recipe, setRecipe] = useState<Recipe>({ ingredients: [], totalVolume: 0 });
+  const [calculator] = useState(() => new RecipeCalculatorService());
+  const [recipe, setRecipe] = useState<Recipe>(() => calculator.calculateRecipe(1000)); // 1000g = 1kg
   const [isCustom, setIsCustom] = useState(false);
   const [customProportions, setCustomProportions] = useState<CustomProportions>({
     cucumber: 333.33,
@@ -43,18 +44,10 @@ function App() {
     vinegar: 18,
   });
 
-  const [calculator] = useState(() => new RecipeCalculatorService());
-
   // Sync html[lang] with selected language
   useEffect(() => {
     document.documentElement.lang = language;
   }, [language]);
-
-  // Initialize recipe
-  useEffect(() => {
-    const initialRecipe = calculator.calculateRecipe(1000); // 1000g = 1kg
-    setRecipe(initialRecipe);
-  }, [calculator]);
 
   // Update calculation strategy when custom mode changes
   useEffect(() => {
@@ -66,6 +59,10 @@ function App() {
       tomatoAmount,
       isCustom ? customProportions : undefined
     );
+    // Recalculating here must react to strategy/proportion changes while preserving the
+    // current tomato amount, which only lives in `recipe` state — an event-handler rewrite
+    // is tracked in docs/handoff-improvements.md.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setRecipe(newRecipe);
     // recipe.ingredients intentionally omitted — reading tomato amount is a one-way trigger,
     // not a reactive dependency; re-including it would cause infinite recalculation loops.
