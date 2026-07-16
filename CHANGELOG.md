@@ -7,6 +7,10 @@ Versioning: [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+
+- Allow manual runs of the GitHub Pages deploy workflow via `workflow_dispatch` (Pages was not enabled when earlier deploys ran, and push-only triggers left no way to retry)
+
 ## [1.0.0] — 2026-05-02
 
 ### Added
