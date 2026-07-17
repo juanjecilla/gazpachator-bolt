@@ -7,6 +7,15 @@ Versioning: [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+
+- Move strategy/proportion recalculation out of a `useEffect` and into the event handlers that change `isCustom`/`customProportions`, removing the last `react-hooks/set-state-in-effect` (and `exhaustive-deps`) eslint suppression in `App.tsx`
+- Type translation keys: `t()` now accepts a `TranslationKey` union derived from the English table, so unknown keys fail `type-check`; `Ingredient.name`/`unit` are typed as translation keys
+
+### Security
+
+- Validate `localStorage` payloads in `StorageService.getSavedRecipes`/`getFavoriteIds` with hand-rolled shape guards; corrupt or wrong-shaped data now falls back to defaults with a `console.warn` instead of injecting bad shapes into state
+
 ### Fixed
 
 - Allow manual runs of the GitHub Pages deploy workflow via `workflow_dispatch` (Pages was not enabled when earlier deploys ran, and push-only triggers left no way to retry)

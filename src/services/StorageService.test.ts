@@ -109,8 +109,53 @@ describe('StorageService', () => {
     });
 
     it('getSavedRecipes returns empty array on corrupt data', () => {
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
       localStorage.setItem('gazpacho-saved-recipes', 'not-json');
       expect(storage.getSavedRecipes()).toEqual([]);
+      expect(warn).toHaveBeenCalled();
+      warn.mockRestore();
+    });
+
+    it('getSavedRecipes rejects a payload that is not an array', () => {
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+      localStorage.setItem('gazpacho-saved-recipes', JSON.stringify({ id: 'x' }));
+      expect(storage.getSavedRecipes()).toEqual([]);
+      expect(warn).toHaveBeenCalled();
+      warn.mockRestore();
+    });
+
+    it('getSavedRecipes rejects entries with the wrong shape', () => {
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+      // Missing required fields and a non-object proportions value.
+      localStorage.setItem(
+        'gazpacho-saved-recipes',
+        JSON.stringify([{ id: 'x', name: 'no-proportions', tomatoAmount: 'lots' }])
+      );
+      expect(storage.getSavedRecipes()).toEqual([]);
+      expect(warn).toHaveBeenCalled();
+      warn.mockRestore();
+    });
+
+    it('getSavedRecipes accepts a well-formed payload', () => {
+      const valid = [
+        {
+          id: 'abc',
+          name: 'Valid',
+          createdAt: new Date().toISOString(),
+          tomatoAmount: 1000,
+          isCustom: false,
+          proportions: {
+            cucumber: 333.33,
+            greenPepper: 166.67,
+            garlic: 12,
+            oliveOil: 15,
+            salt: 6,
+            vinegar: 18,
+          },
+        },
+      ];
+      localStorage.setItem('gazpacho-saved-recipes', JSON.stringify(valid));
+      expect(storage.getSavedRecipes()).toEqual(valid);
     });
 
     it('saveRecipe persists and returns recipe with id and createdAt', () => {
@@ -206,8 +251,32 @@ describe('StorageService', () => {
     });
 
     it('getFavoriteIds returns empty array on corrupt data', () => {
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
       localStorage.setItem('gazpacho-favorite-ids', 'bad');
       expect(storage.getFavoriteIds()).toEqual([]);
+      expect(warn).toHaveBeenCalled();
+      warn.mockRestore();
+    });
+
+    it('getFavoriteIds rejects non-string entries', () => {
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+      localStorage.setItem('gazpacho-favorite-ids', JSON.stringify(['ok', 42, { a: 1 }]));
+      expect(storage.getFavoriteIds()).toEqual([]);
+      expect(warn).toHaveBeenCalled();
+      warn.mockRestore();
+    });
+
+    it('getFavoriteIds rejects a payload that is not an array', () => {
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+      localStorage.setItem('gazpacho-favorite-ids', JSON.stringify({ nope: true }));
+      expect(storage.getFavoriteIds()).toEqual([]);
+      expect(warn).toHaveBeenCalled();
+      warn.mockRestore();
+    });
+
+    it('getFavoriteIds accepts a valid string array', () => {
+      localStorage.setItem('gazpacho-favorite-ids', JSON.stringify(['a', 'b']));
+      expect(storage.getFavoriteIds()).toEqual(['a', 'b']);
     });
 
     it('toggleFavorite adds id', () => {

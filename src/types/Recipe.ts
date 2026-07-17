@@ -1,9 +1,11 @@
+import type { TranslationKey } from '../data/translations';
+
 // Core interfaces and types for the Gazpacho recipe calculator
 export interface Ingredient {
   id: string;
-  name: string;
+  name: TranslationKey; // translation key for the ingredient's display name
   amount: number;
-  unit: string;
+  unit: TranslationKey; // translation key for the unit (e.g. 'g')
   proportion: number; // Relative to tomato (base ingredient)
 }
 
@@ -19,14 +21,6 @@ export interface CustomProportions {
   oliveOil: number; // in grams per kg of tomato
   salt: number; // in grams per kg of tomato
   vinegar: number; // in grams per kg of tomato
-}
-
-export interface Translation {
-  [key: string]: string;
-}
-
-export interface LanguageData {
-  [key: string]: Translation;
 }
 
 export type Theme = 'light' | 'dark' | 'system';

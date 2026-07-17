@@ -1,4 +1,31 @@
-import type { SavedRecipe, FavoriteId } from '../types/Recipe';
+import type { SavedRecipe, FavoriteId, CustomProportions } from '../types/Recipe';
+
+function isCustomProportions(value: unknown): value is CustomProportions {
+  if (typeof value !== 'object' || value === null) return false;
+  const p = value as Record<string, unknown>;
+  return (
+    typeof p.cucumber === 'number' &&
+    typeof p.greenPepper === 'number' &&
+    typeof p.garlic === 'number' &&
+    typeof p.oliveOil === 'number' &&
+    typeof p.salt === 'number' &&
+    typeof p.vinegar === 'number'
+  );
+}
+
+function isSavedRecipe(value: unknown): value is SavedRecipe {
+  if (typeof value !== 'object' || value === null) return false;
+  const r = value as Record<string, unknown>;
+  return (
+    typeof r.id === 'string' &&
+    typeof r.name === 'string' &&
+    typeof r.createdAt === 'string' &&
+    typeof r.tomatoAmount === 'number' &&
+    typeof r.isCustom === 'boolean' &&
+    isCustomProportions(r.proportions) &&
+    (r.notes === undefined || typeof r.notes === 'string')
+  );
+}
 
 export class StorageService {
   private static instance: StorageService;
@@ -62,10 +89,17 @@ export class StorageService {
   }
 
   getSavedRecipes(): SavedRecipe[] {
+    const raw = localStorage.getItem(this.SAVED_RECIPES_KEY);
+    if (!raw) return [];
     try {
-      const raw = localStorage.getItem(this.SAVED_RECIPES_KEY);
-      return raw ? (JSON.parse(raw) as SavedRecipe[]) : [];
+      const parsed: unknown = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.every(isSavedRecipe)) {
+        return parsed;
+      }
+      console.warn('StorageService: invalid saved-recipes payload; falling back to []');
+      return [];
     } catch {
+      console.warn('StorageService: corrupt saved-recipes JSON; falling back to []');
       return [];
     }
   }
@@ -98,10 +132,17 @@ export class StorageService {
   }
 
   getFavoriteIds(): FavoriteId[] {
+    const raw = localStorage.getItem(this.FAVORITE_IDS_KEY);
+    if (!raw) return [];
     try {
-      const raw = localStorage.getItem(this.FAVORITE_IDS_KEY);
-      return raw ? (JSON.parse(raw) as FavoriteId[]) : [];
+      const parsed: unknown = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.every((id) => typeof id === 'string')) {
+        return parsed;
+      }
+      console.warn('StorageService: invalid favorite-ids payload; falling back to []');
+      return [];
     } catch {
+      console.warn('StorageService: corrupt favorite-ids JSON; falling back to []');
       return [];
     }
   }

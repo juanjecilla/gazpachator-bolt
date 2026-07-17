@@ -1,8 +1,9 @@
 import React from 'react';
 import { Heart, Coffee } from 'lucide-react';
+import type { TranslationKey } from '../data/translations';
 
 interface KofiButtonProps {
-  t: (key: string) => string;
+  t: (key: TranslationKey) => string;
 }
 
 export const KofiButton: React.FC<KofiButtonProps> = ({ t }) => {

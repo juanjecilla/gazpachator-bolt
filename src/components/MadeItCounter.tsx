@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Heart } from 'lucide-react';
 import { StorageService } from '../services/StorageService';
+import type { TranslationKey } from '../data/translations';
 
 interface MadeItCounterProps {
-  t: (key: string) => string;
+  t: (key: TranslationKey) => string;
 }
 
 export const MadeItCounter: React.FC<MadeItCounterProps> = ({ t }) => {

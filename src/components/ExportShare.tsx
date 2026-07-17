@@ -1,10 +1,11 @@
 import React, { useState, useRef } from 'react';
 import { Share2, Download, Copy, Check, Image } from 'lucide-react';
 import type { Recipe } from '../types/Recipe';
+import type { TranslationKey } from '../data/translations';
 
 interface ExportShareProps {
   recipe: Recipe;
-  t: (key: string) => string;
+  t: (key: TranslationKey) => string;
 }
 
 export const ExportShare: React.FC<ExportShareProps> = ({ recipe, t }) => {

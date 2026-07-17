@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import type { CustomProportions } from '../types/Recipe';
+import type { TranslationKey } from '../data/translations';
 import { Settings, RotateCcw, Save, X } from 'lucide-react';
 
 interface ProportionEditorProps {
@@ -8,7 +9,7 @@ interface ProportionEditorProps {
   onToggleCustom: () => void;
   onProportionsChange: (proportions: CustomProportions) => void;
   onReset: () => void;
-  t: (key: string) => string;
+  t: (key: TranslationKey) => string;
 }
 
 export const ProportionEditor: React.FC<ProportionEditorProps> = ({
@@ -137,7 +138,7 @@ export const ProportionEditor: React.FC<ProportionEditorProps> = ({
                 {Object.entries(tempProportions).map(([key, value]) => (
                   <div key={key} className="flex items-center justify-between">
                     <label className="text-sm font-medium text-amber-700 dark:text-amber-300">
-                      {t(key)}:
+                      {t(key as keyof CustomProportions)}:
                     </label>
                     <div className="flex items-center gap-2">
                       <input
