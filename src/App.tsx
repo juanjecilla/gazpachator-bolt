@@ -49,25 +49,18 @@ function App() {
     document.documentElement.lang = language;
   }, [language]);
 
-  // Update calculation strategy when custom mode changes
-  useEffect(() => {
-    const strategy = isCustom ? new CustomCalculationStrategy() : new DefaultCalculationStrategy();
+  // Recalculate the recipe for a given strategy/proportions choice while keeping the
+  // current tomato amount. Called directly from the handlers that change the strategy or
+  // proportions, so state updates stay in event handlers (no set-state-in-effect).
+  const recalculateWithStrategy = (nextIsCustom: boolean, nextProportions: CustomProportions) => {
+    const strategy = nextIsCustom
+      ? new CustomCalculationStrategy()
+      : new DefaultCalculationStrategy();
     calculator.setStrategy(strategy);
 
-    const tomatoAmount = recipe.ingredients.find((ing) => ing.id === 'tomato')?.amount || 1000;
-    const newRecipe = calculator.calculateRecipe(
-      tomatoAmount,
-      isCustom ? customProportions : undefined
-    );
-    // Recalculating here must react to strategy/proportion changes while preserving the
-    // current tomato amount, which only lives in `recipe` state — an event-handler rewrite
-    // is tracked in docs/handoff-improvements.md.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setRecipe(newRecipe);
-    // recipe.ingredients intentionally omitted — reading tomato amount is a one-way trigger,
-    // not a reactive dependency; re-including it would cause infinite recalculation loops.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isCustom, customProportions, calculator]);
+    const tomatoAmount = recipe.ingredients.find((ing) => ing.id === 'tomato')?.amount ?? 1000;
+    setRecipe(calculator.calculateRecipe(tomatoAmount, nextIsCustom ? nextProportions : undefined));
+  };
 
   const handleIngredientChange = (ingredientId: string, newAmount: number) => {
     const updatedIngredients = calculator.updateIngredientAmount(
@@ -89,11 +82,14 @@ function App() {
   };
 
   const handleToggleCustom = () => {
-    setIsCustom(!isCustom);
+    const nextIsCustom = !isCustom;
+    setIsCustom(nextIsCustom);
+    recalculateWithStrategy(nextIsCustom, customProportions);
   };
 
   const handleProportionsChange = (newProportions: CustomProportions) => {
     setCustomProportions(newProportions);
+    recalculateWithStrategy(isCustom, newProportions);
   };
 
   const handleLoadRecipe = (saved: SavedRecipe) => {
@@ -111,14 +107,16 @@ function App() {
   };
 
   const handleResetProportions = () => {
-    setCustomProportions({
+    const defaultProportions: CustomProportions = {
       cucumber: 333.33,
       greenPepper: 166.67,
       garlic: 12,
       oliveOil: 15,
       salt: 6,
       vinegar: 18,
-    });
+    };
+    setCustomProportions(defaultProportions);
+    recalculateWithStrategy(isCustom, defaultProportions);
   };
 
   return (

@@ -46,9 +46,10 @@ describe('useLanguage', () => {
     expect(result.current.language).toBe('es');
   });
 
-  it('t() falls back to en key if translation missing', () => {
+  it('t() falls back to the key itself at runtime for an unknown key', () => {
     const { result } = renderHook(() => useLanguage());
-    // Non-existent key should return the key itself
+    // Unknown keys are rejected at compile time (typed TranslationKey union);
+    // @ts-expect-error verifies the type guard while exercising the runtime fallback.
     expect(result.current.t('nonExistentKey123')).toBe('nonExistentKey123');
   });
 });

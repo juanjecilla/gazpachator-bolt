@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { StorageService } from '../services/StorageService';
 import { translations } from '../data/translations';
+import type { TranslationKey } from '../data/translations';
 import type { Language } from '../types/Recipe';
 
 export const useLanguage = () => {
@@ -20,7 +21,7 @@ export const useLanguage = () => {
     storage.setLanguage(newLanguage);
   };
 
-  const t = (key: string): string => {
+  const t = (key: TranslationKey): string => {
     return translations[language]?.[key] || translations.en[key] || key;
   };
 

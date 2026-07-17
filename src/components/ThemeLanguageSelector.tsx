@@ -1,13 +1,14 @@
 import React from 'react';
 import { Sun, Moon, Monitor, Globe } from 'lucide-react';
 import type { Theme, Language } from '../types/Recipe';
+import type { TranslationKey } from '../data/translations';
 
 interface ThemeLanguageSelectorProps {
   theme: Theme;
   language: Language;
   onThemeChange: (theme: Theme) => void;
   onLanguageChange: (language: Language) => void;
-  t: (key: string) => string;
+  t: (key: TranslationKey) => string;
 }
 
 export const ThemeLanguageSelector: React.FC<ThemeLanguageSelectorProps> = ({

@@ -1,9 +1,10 @@
 import React from 'react';
 import { Beaker } from 'lucide-react';
+import type { TranslationKey } from '../data/translations';
 
 interface VolumeEstimatorProps {
   volume: number;
-  t: (key: string) => string;
+  t: (key: TranslationKey) => string;
 }
 
 export const VolumeEstimator: React.FC<VolumeEstimatorProps> = ({ volume, t }) => {

@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { BookOpen, Star, Trash2, Download, ChevronDown, ChevronUp, Plus } from 'lucide-react';
 import type { SavedRecipe, CustomProportions } from '../types/Recipe';
 import type { SaveRecipeData } from '../hooks/useRecipeHistory';
+import type { TranslationKey } from '../data/translations';
 
 interface RecipeHistoryPanelProps {
-  t: (key: string) => string;
+  t: (key: TranslationKey) => string;
   currentTomatoAmount: number;
   isCustom: boolean;
   currentProportions: CustomProportions;
