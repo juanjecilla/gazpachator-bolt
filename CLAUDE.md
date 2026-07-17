@@ -86,6 +86,7 @@ git branch -d <type>/<slug>
 | `user-made-it`             | `"true"`              | null    | Phase 0  |
 | `gazpacho-saved-recipes`   | JSON `SavedRecipe[]`  | `"[]"`  | Phase 6  |
 | `gazpacho-favorite-ids`    | JSON `string[]`       | `"[]"`  | Phase 6  |
+| `gazpacho-ratio-presets`   | JSON `RatioPreset[]`  | `"[]"`  | Parity 1 |
 | `gazpacho-storage-version` | number (string)       | `"1"`   | Phase 6  |
 
 **Rule:** No component calls `localStorage` directly. All storage goes through `StorageService`.
