@@ -46,6 +46,7 @@ export const ThemeLanguageSelector: React.FC<ThemeLanguageSelectorProps> = ({
           {themes.map((themeOption) => (
             <button
               key={themeOption.value}
+              data-testid={`theme-${themeOption.value}`}
               onClick={() => onThemeChange(themeOption.value)}
               aria-pressed={theme === themeOption.value}
               aria-label={themeOption.label}
@@ -68,6 +69,7 @@ export const ThemeLanguageSelector: React.FC<ThemeLanguageSelectorProps> = ({
           {t('language')}:
         </span>
         <select
+          data-testid="language-select"
           value={language}
           onChange={(e) => onLanguageChange(e.target.value as Language)}
           className="rounded border border-amber-300 bg-amber-50 px-3 py-1 text-xs text-amber-800 focus:border-amber-500 focus:ring-2 focus:ring-amber-500 dark:border-amber-600 dark:bg-amber-800 dark:text-amber-200"
