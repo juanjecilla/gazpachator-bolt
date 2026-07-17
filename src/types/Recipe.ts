@@ -37,3 +37,13 @@ export interface SavedRecipe {
 }
 
 export type FavoriteId = string;
+
+// A named snapshot of the ProportionEditor's custom proportions. The built-in
+// default preset (`isBuiltIn`) is synthesized at runtime, never persisted, and
+// cannot be deleted. User presets are persisted via StorageService.
+export interface RatioPreset {
+  id: string;
+  name: string;
+  proportions: CustomProportions;
+  isBuiltIn: boolean;
+}
