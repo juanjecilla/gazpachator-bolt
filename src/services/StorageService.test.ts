@@ -290,4 +290,81 @@ describe('StorageService', () => {
       expect(storage.getFavoriteIds()).not.toContain('abc');
     });
   });
+
+  describe('ratio presets', () => {
+    const proportions = {
+      cucumber: 400,
+      greenPepper: 200,
+      garlic: 15,
+      oliveOil: 20,
+      salt: 7,
+      vinegar: 22,
+    };
+
+    it('getRatioPresets returns empty array when not set', () => {
+      expect(storage.getRatioPresets()).toEqual([]);
+    });
+
+    it('getRatioPresets returns empty array on corrupt JSON', () => {
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+      localStorage.setItem('gazpacho-ratio-presets', 'not-json');
+      expect(storage.getRatioPresets()).toEqual([]);
+      expect(warn).toHaveBeenCalled();
+      warn.mockRestore();
+    });
+
+    it('getRatioPresets rejects a payload that is not an array', () => {
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+      localStorage.setItem('gazpacho-ratio-presets', JSON.stringify({ id: 'x' }));
+      expect(storage.getRatioPresets()).toEqual([]);
+      expect(warn).toHaveBeenCalled();
+      warn.mockRestore();
+    });
+
+    it('getRatioPresets rejects entries with the wrong shape', () => {
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+      localStorage.setItem(
+        'gazpacho-ratio-presets',
+        JSON.stringify([{ id: 'x', name: 'no-proportions', isBuiltIn: false }])
+      );
+      expect(storage.getRatioPresets()).toEqual([]);
+      expect(warn).toHaveBeenCalled();
+      warn.mockRestore();
+    });
+
+    it('getRatioPresets accepts a well-formed payload', () => {
+      const valid = [{ id: 'p1', name: 'Mine', proportions, isBuiltIn: false }];
+      localStorage.setItem('gazpacho-ratio-presets', JSON.stringify(valid));
+      expect(storage.getRatioPresets()).toEqual(valid);
+    });
+
+    it('saveRatioPreset persists and returns a preset with id and isBuiltIn=false', () => {
+      const saved = storage.saveRatioPreset({ name: 'Spicy', proportions });
+      expect(saved.id).toBeDefined();
+      expect(saved.name).toBe('Spicy');
+      expect(saved.isBuiltIn).toBe(false);
+      expect(saved.proportions).toEqual(proportions);
+      expect(storage.getRatioPresets()).toHaveLength(1);
+    });
+
+    it('saveRatioPreset appends (preserves insertion order)', () => {
+      storage.saveRatioPreset({ name: 'First', proportions });
+      storage.saveRatioPreset({ name: 'Second', proportions });
+      const presets = storage.getRatioPresets();
+      expect(presets[0].name).toBe('First');
+      expect(presets[1].name).toBe('Second');
+    });
+
+    it('deleteRatioPreset removes the matching preset', () => {
+      const saved = storage.saveRatioPreset({ name: 'Del', proportions });
+      storage.deleteRatioPreset(saved.id);
+      expect(storage.getRatioPresets()).toHaveLength(0);
+    });
+
+    it('deleteRatioPreset is a no-op for an unknown id', () => {
+      storage.saveRatioPreset({ name: 'Keep', proportions });
+      storage.deleteRatioPreset('nonexistent');
+      expect(storage.getRatioPresets()).toHaveLength(1);
+    });
+  });
 });

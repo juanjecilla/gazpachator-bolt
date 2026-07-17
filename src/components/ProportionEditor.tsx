@@ -57,7 +57,7 @@ export const ProportionEditor: React.FC<ProportionEditorProps> = ({
 
   return (
     <>
-      <div className="rounded-lg border border-amber-300 bg-gradient-to-br from-amber-100 to-yellow-100 p-6 shadow-lg dark:border-amber-600 dark:from-amber-900/30 dark:to-yellow-900/30">
+      <div className="rounded-lg border border-amber-300 bg-gradient-to-br from-amber-100 to-yellow-100 p-6 shadow-lg dark:border-amber-600 dark:from-amber-900/30 dark:to-yellow-900/30 print:hidden">
         <div className="mb-4 flex items-center justify-between">
           <div className="flex items-center gap-2 text-amber-800 dark:text-amber-200">
             <Settings size={20} />
@@ -104,7 +104,7 @@ export const ProportionEditor: React.FC<ProportionEditorProps> = ({
       {/* Popup Modal */}
       {showPopup && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4 print:hidden"
           onClick={(e) => e.target === e.currentTarget && setShowPopup(false)}
         >
           <div

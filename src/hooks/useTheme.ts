@@ -41,6 +41,27 @@ export const useTheme = () => {
     }
   }, [theme]);
 
+  // The printed recipe sheet is always light/ink-friendly, regardless of the
+  // active theme: dark backgrounds and pale text waste ink and read poorly on
+  // paper. Drop the `dark` class only for the duration of printing (covers
+  // both the in-app print button and the browser's native Ctrl+P / File >
+  // Print), then restore whatever the resolved theme actually is.
+  useEffect(() => {
+    const handleBeforePrint = () => {
+      document.documentElement.classList.remove('dark');
+    };
+    const handleAfterPrint = () => {
+      document.documentElement.classList.toggle('dark', resolvedTheme === 'dark');
+    };
+
+    window.addEventListener('beforeprint', handleBeforePrint);
+    window.addEventListener('afterprint', handleAfterPrint);
+    return () => {
+      window.removeEventListener('beforeprint', handleBeforePrint);
+      window.removeEventListener('afterprint', handleAfterPrint);
+    };
+  }, [resolvedTheme]);
+
   const changeTheme = (newTheme: Theme) => {
     setTheme(newTheme);
     storage.setTheme(newTheme);

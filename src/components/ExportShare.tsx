@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Share2, Download, Copy, Check, Image } from 'lucide-react';
+import { Share2, Download, Copy, Check, Image, Printer } from 'lucide-react';
 import type { Recipe } from '../types/Recipe';
 import type { TranslationKey } from '../data/translations';
 
@@ -191,8 +191,12 @@ export const ExportShare: React.FC<ExportShareProps> = ({ recipe, t }) => {
     }
   };
 
+  const handlePrint = () => {
+    window.print();
+  };
+
   return (
-    <div className="space-y-3">
+    <div className="space-y-3 print:hidden">
       <canvas ref={canvasRef} style={{ display: 'none' }} />
 
       <div className="flex flex-wrap gap-2">
@@ -228,6 +232,15 @@ export const ExportShare: React.FC<ExportShareProps> = ({ recipe, t }) => {
         >
           {copied ? <Check size={16} /> : <Copy size={16} />}
           {copied ? 'Copied!' : 'Copy'}
+        </button>
+
+        <button
+          onClick={handlePrint}
+          data-testid="print-recipe-button"
+          className="flex items-center gap-2 rounded-md bg-slate-600 px-4 py-2 text-white shadow-sm transition-colors duration-200 hover:bg-slate-700 focus:ring-2 focus:ring-slate-500 focus:ring-offset-2"
+        >
+          <Printer size={16} />
+          {t('printRecipe')}
         </button>
       </div>
     </div>

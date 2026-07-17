@@ -115,7 +115,7 @@ export const RecipeHistoryPanel: React.FC<RecipeHistoryPanelProps> = ({
   );
 
   return (
-    <div className="overflow-hidden rounded-xl border-2 border-amber-200 bg-amber-50/95 shadow-xl backdrop-blur-sm dark:border-amber-700 dark:bg-amber-900/95">
+    <div className="overflow-hidden rounded-xl border-2 border-amber-200 bg-amber-50/95 shadow-xl backdrop-blur-sm dark:border-amber-700 dark:bg-amber-900/95 print:hidden">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="flex w-full items-center justify-between p-4 text-amber-900 transition-colors hover:bg-amber-100 dark:text-amber-100 dark:hover:bg-amber-800/40"
