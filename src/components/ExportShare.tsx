@@ -1,7 +1,8 @@
 import React, { useState, useRef } from 'react';
-import { Share2, Download, Copy, Check, Image, Printer } from 'lucide-react';
+import { Share2, Download, Copy, Check, Image, Printer, FileJson } from 'lucide-react';
 import type { Recipe } from '../types/Recipe';
 import type { TranslationKey } from '../data/translations';
+import { buildRecipeExport } from '../services/JsonExport';
 
 interface ExportShareProps {
   recipe: Recipe;
@@ -142,6 +143,20 @@ export const ExportShare: React.FC<ExportShareProps> = ({ recipe, t }) => {
     URL.revokeObjectURL(url);
   };
 
+  const handleJsonExport = () => {
+    const payload = buildRecipeExport(recipe);
+    const content = JSON.stringify(payload, null, 2);
+    const blob = new Blob([content], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'juanje-gazpacho-recipe.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
   const handleImageShare = async () => {
     try {
       const imageDataUrl = await generateRecipeImage();
@@ -232,6 +247,15 @@ export const ExportShare: React.FC<ExportShareProps> = ({ recipe, t }) => {
         >
           {copied ? <Check size={16} /> : <Copy size={16} />}
           {copied ? 'Copied!' : 'Copy'}
+        </button>
+
+        <button
+          onClick={handleJsonExport}
+          data-testid="export-json-button"
+          className="flex items-center gap-2 rounded-md bg-teal-600 px-4 py-2 text-white shadow-sm transition-colors duration-200 hover:bg-teal-700 focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
+        >
+          <FileJson size={16} />
+          {t('exportJson')}
         </button>
 
         <button
