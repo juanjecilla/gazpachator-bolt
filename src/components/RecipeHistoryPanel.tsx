@@ -63,7 +63,10 @@ export const RecipeHistoryPanel: React.FC<RecipeHistoryPanelProps> = ({
   };
 
   const RecipeItem = ({ recipe }: { recipe: SavedRecipe }) => (
-    <div className="flex items-start gap-2 rounded-lg border border-amber-200 bg-amber-50 p-2 dark:border-amber-800 dark:bg-amber-900/20">
+    <div
+      data-testid="history-recipe-item"
+      className="flex items-start gap-2 rounded-lg border border-amber-200 bg-amber-50 p-2 dark:border-amber-800 dark:bg-amber-900/20"
+    >
       <div className="min-w-0 flex-1">
         <div className="truncate text-sm font-medium text-amber-900 dark:text-amber-100">
           {recipe.name}
@@ -80,6 +83,7 @@ export const RecipeHistoryPanel: React.FC<RecipeHistoryPanelProps> = ({
       <div className="flex shrink-0 gap-1">
         <button
           onClick={() => onToggleFavorite(recipe.id)}
+          data-testid="history-favorite-button"
           className={`rounded p-1 transition-colors ${
             isFavorite(recipe.id)
               ? 'text-amber-500 hover:text-amber-600'
@@ -92,6 +96,7 @@ export const RecipeHistoryPanel: React.FC<RecipeHistoryPanelProps> = ({
         </button>
         <button
           onClick={() => onLoad(recipe)}
+          data-testid="history-load-button"
           className="rounded p-1 text-amber-600 transition-colors hover:text-amber-800 dark:text-amber-400 dark:hover:text-amber-200"
           title={t('loadRecipe')}
           aria-label={t('loadRecipe')}
@@ -100,6 +105,7 @@ export const RecipeHistoryPanel: React.FC<RecipeHistoryPanelProps> = ({
         </button>
         <button
           onClick={() => handleDelete(recipe.id)}
+          data-testid="history-delete-button"
           className={`rounded p-1 transition-colors ${
             confirmDeleteId === recipe.id
               ? 'text-red-600 dark:text-red-400'
@@ -118,6 +124,7 @@ export const RecipeHistoryPanel: React.FC<RecipeHistoryPanelProps> = ({
     <div className="overflow-hidden rounded-xl border-2 border-amber-200 bg-amber-50/95 shadow-xl backdrop-blur-sm dark:border-amber-700 dark:bg-amber-900/95 print:hidden">
       <button
         onClick={() => setIsOpen(!isOpen)}
+        data-testid="history-toggle"
         className="flex w-full items-center justify-between p-4 text-amber-900 transition-colors hover:bg-amber-100 dark:text-amber-100 dark:hover:bg-amber-800/40"
         aria-expanded={isOpen}
       >
@@ -138,6 +145,7 @@ export const RecipeHistoryPanel: React.FC<RecipeHistoryPanelProps> = ({
           {!showSaveForm ? (
             <button
               onClick={() => setShowSaveForm(true)}
+              data-testid="history-open-save-form"
               className="flex w-full items-center justify-center gap-2 rounded-lg border-2 border-dashed border-amber-300 px-4 py-2 text-sm text-amber-600 transition-colors hover:border-amber-400 hover:text-amber-700 dark:border-amber-700 dark:text-amber-400 dark:hover:text-amber-300"
             >
               <Plus size={14} />
@@ -147,6 +155,7 @@ export const RecipeHistoryPanel: React.FC<RecipeHistoryPanelProps> = ({
             <div className="space-y-2 rounded-lg border border-amber-200 bg-white p-3 dark:border-amber-700 dark:bg-gray-800">
               <input
                 type="text"
+                data-testid="history-name-input"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder={t('recipeName')}
@@ -166,6 +175,7 @@ export const RecipeHistoryPanel: React.FC<RecipeHistoryPanelProps> = ({
               <div className="flex gap-2">
                 <button
                   onClick={handleSave}
+                  data-testid="history-save-button"
                   disabled={!name.trim()}
                   className="flex-1 rounded-lg bg-amber-500 px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-amber-600 disabled:bg-amber-200 disabled:dark:bg-amber-900/30"
                 >

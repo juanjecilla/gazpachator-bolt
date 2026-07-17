@@ -67,6 +67,7 @@ export const ProportionEditor: React.FC<ProportionEditorProps> = ({
           <div className="flex items-center gap-2">
             <button
               onClick={handleOpenPopup}
+              data-testid="edit-recipe-button"
               className="rounded-md bg-amber-600 px-3 py-1 text-sm text-white shadow-sm transition-colors duration-200 hover:bg-amber-700"
             >
               Edit Recipe
@@ -75,6 +76,7 @@ export const ProportionEditor: React.FC<ProportionEditorProps> = ({
             <label className="flex cursor-pointer items-center gap-2">
               <input
                 type="checkbox"
+                data-testid="use-custom-toggle"
                 checked={isCustom}
                 onChange={onToggleCustom}
                 className="rounded border-amber-300 text-amber-600 focus:ring-amber-500 focus:ring-offset-0"
@@ -85,6 +87,7 @@ export const ProportionEditor: React.FC<ProportionEditorProps> = ({
             {isCustom && (
               <button
                 onClick={onReset}
+                data-testid="reset-proportions-button"
                 className="flex items-center gap-1 rounded px-2 py-1 text-xs text-amber-600 transition-colors hover:bg-amber-200 hover:text-amber-800 dark:text-amber-400 dark:hover:bg-amber-800 dark:hover:text-amber-200"
               >
                 <RotateCcw size={12} />
@@ -145,6 +148,7 @@ export const ProportionEditor: React.FC<ProportionEditorProps> = ({
                         type="number"
                         step="0.1"
                         min="0"
+                        data-testid={`proportion-input-${key}`}
                         value={value}
                         onChange={(e) =>
                           handleTempProportionChange(
@@ -180,6 +184,7 @@ export const ProportionEditor: React.FC<ProportionEditorProps> = ({
 
                 <button
                   onClick={handleSaveProportions}
+                  data-testid="save-proportions-button"
                   className="flex items-center gap-2 rounded-md bg-amber-600 px-4 py-2 text-white shadow-sm transition-colors hover:bg-amber-700"
                 >
                   <Save size={16} />
