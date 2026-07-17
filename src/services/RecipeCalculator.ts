@@ -119,6 +119,12 @@ export class CustomCalculationStrategy implements ICalculationStrategy {
   }
 }
 
+// Rule of thumb ported from gazpachator-v0's stats-panel: ~4 servings per liter,
+// rounded up so a partially-filled serving still counts as one to prepare for.
+export function estimateServings(totalVolumeLiters: number): number {
+  return Math.ceil(totalVolumeLiters * 4);
+}
+
 // Context class that uses the strategy
 export class RecipeCalculatorService {
   private strategy: ICalculationStrategy;
