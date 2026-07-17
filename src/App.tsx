@@ -7,6 +7,7 @@ import { MadeItCounter } from './components/MadeItCounter';
 import { ThemeLanguageSelector } from './components/ThemeLanguageSelector';
 import { KofiButton } from './components/KofiButton';
 import { RecipeHistoryPanel } from './components/RecipeHistoryPanel';
+import { RatioPresetsPanel } from './components/RatioPresetsPanel';
 import { PwaUpdatePrompt } from './components/PwaUpdatePrompt';
 import {
   RecipeCalculatorService,
@@ -16,7 +17,8 @@ import {
 import { useTheme } from './hooks/useTheme';
 import { useLanguage } from './hooks/useLanguage';
 import { useRecipeHistory } from './hooks/useRecipeHistory';
-import type { Recipe, CustomProportions, SavedRecipe } from './types/Recipe';
+import { useRatioPresets } from './hooks/useRatioPresets';
+import type { Recipe, CustomProportions, SavedRecipe, RatioPreset } from './types/Recipe';
 import { ChefHat } from 'lucide-react';
 
 function App() {
@@ -31,6 +33,7 @@ function App() {
     toggleFavorite,
     isFavorite,
   } = useRecipeHistory();
+  const { presets, savePreset, deletePreset } = useRatioPresets();
 
   const [calculator] = useState(() => new RecipeCalculatorService());
   const [recipe, setRecipe] = useState<Recipe>(() => calculator.calculateRecipe(1000)); // 1000g = 1kg
@@ -104,6 +107,14 @@ function App() {
       saved.isCustom ? saved.proportions : undefined
     );
     setRecipe(newRecipe);
+  };
+
+  // Loading a preset restores the ProportionEditor's state: it applies the
+  // preset's proportions and switches the recipe into custom mode.
+  const handleLoadPreset = (preset: RatioPreset) => {
+    setIsCustom(true);
+    setCustomProportions(preset.proportions);
+    recalculateWithStrategy(true, preset.proportions);
   };
 
   const handleResetProportions = () => {
@@ -204,6 +215,15 @@ function App() {
                 onLoad={handleLoadRecipe}
                 onDelete={deleteRecipe}
                 onToggleFavorite={toggleFavorite}
+              />
+
+              <RatioPresetsPanel
+                t={t}
+                currentProportions={customProportions}
+                presets={presets}
+                onSave={savePreset}
+                onLoad={handleLoadPreset}
+                onDelete={deletePreset}
               />
 
               <KofiButton t={t} />
