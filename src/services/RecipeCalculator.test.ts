@@ -3,6 +3,7 @@ import {
   RecipeCalculatorService,
   DefaultCalculationStrategy,
   CustomCalculationStrategy,
+  estimateServings,
 } from './RecipeCalculator';
 import type { CustomProportions } from '../types/Recipe';
 
@@ -129,6 +130,30 @@ describe('RecipeCalculatorService', () => {
 
     const recipe = service.calculateRecipe(1000, customProportions);
     expect(recipe.ingredients.find((i) => i.id === 'cucumber')?.amount).toBe(600);
+  });
+});
+
+describe('estimateServings', () => {
+  it('matches the gazpachator-v0 rule of thumb (4 servings per liter)', () => {
+    expect(estimateServings(2)).toBe(8);
+  });
+
+  it('rounds up a fractional result instead of truncating', () => {
+    // 1.01L * 4 = 4.04 servings — must round up to 5, not down to 4.
+    expect(estimateServings(1.01)).toBe(5);
+  });
+
+  it('rounds up even a tiny fraction over an exact multiple', () => {
+    // 1.001L * 4 = 4.004 servings — still rounds up to 5.
+    expect(estimateServings(1.001)).toBe(5);
+  });
+
+  it('returns 0 for 0 liters', () => {
+    expect(estimateServings(0)).toBe(0);
+  });
+
+  it('does not round up an exact multiple of 0.25L', () => {
+    expect(estimateServings(1.5)).toBe(6);
   });
 });
 

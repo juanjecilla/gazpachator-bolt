@@ -19,4 +19,22 @@ test.describe('Gazpachator Calculator', () => {
     // Just verify the page loaded and has interactive elements
     await expect(page.locator('#root')).toBeVisible();
   });
+
+  test('shows a servings estimate next to the volume that updates with amounts', async ({
+    page,
+  }) => {
+    const servings = page.getByTestId('servings-value');
+    await expect(servings).toBeVisible();
+    await expect(servings).toContainText('servings');
+
+    const before = await servings.textContent();
+
+    // Raising the tomato amount grows the total volume, and with it the servings estimate.
+    const tomatoInput = page.locator('#tomato');
+    const currentTomato = Number(await tomatoInput.inputValue());
+    await tomatoInput.fill(String(currentTomato * 3));
+    await tomatoInput.blur();
+
+    await expect(servings).not.toHaveText(before ?? '');
+  });
 });
