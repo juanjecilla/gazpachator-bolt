@@ -12,7 +12,7 @@ export const KofiButton: React.FC<KofiButtonProps> = ({ t }) => {
   };
 
   return (
-    <div className="rounded-lg border border-pink-200 bg-gradient-to-r from-pink-50 to-red-50 p-4 dark:border-pink-700 dark:from-pink-900/20 dark:to-red-900/20">
+    <div className="rounded-lg border border-pink-200 bg-gradient-to-r from-pink-50 to-red-50 p-4 dark:border-pink-700 dark:from-pink-900/20 dark:to-red-900/20 print:hidden">
       <div className="mb-3 text-center">
         <div className="mb-2 flex items-center justify-center gap-2">
           <Heart className="text-pink-600 dark:text-pink-400" size={20} />

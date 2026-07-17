@@ -7,6 +7,7 @@ import { MadeItCounter } from './components/MadeItCounter';
 import { ThemeLanguageSelector } from './components/ThemeLanguageSelector';
 import { KofiButton } from './components/KofiButton';
 import { RecipeHistoryPanel } from './components/RecipeHistoryPanel';
+import { RatioPresetsPanel } from './components/RatioPresetsPanel';
 import { PwaUpdatePrompt } from './components/PwaUpdatePrompt';
 import {
   RecipeCalculatorService,
@@ -16,7 +17,8 @@ import {
 import { useTheme } from './hooks/useTheme';
 import { useLanguage } from './hooks/useLanguage';
 import { useRecipeHistory } from './hooks/useRecipeHistory';
-import type { Recipe, CustomProportions, SavedRecipe } from './types/Recipe';
+import { useRatioPresets } from './hooks/useRatioPresets';
+import type { Recipe, CustomProportions, SavedRecipe, RatioPreset } from './types/Recipe';
 import { ChefHat } from 'lucide-react';
 
 function App() {
@@ -31,6 +33,7 @@ function App() {
     toggleFavorite,
     isFavorite,
   } = useRecipeHistory();
+  const { presets, savePreset, deletePreset } = useRatioPresets();
 
   const [calculator] = useState(() => new RecipeCalculatorService());
   const [recipe, setRecipe] = useState<Recipe>(() => calculator.calculateRecipe(1000)); // 1000g = 1kg
@@ -106,6 +109,14 @@ function App() {
     setRecipe(newRecipe);
   };
 
+  // Loading a preset restores the ProportionEditor's state: it applies the
+  // preset's proportions and switches the recipe into custom mode.
+  const handleLoadPreset = (preset: RatioPreset) => {
+    setIsCustom(true);
+    setCustomProportions(preset.proportions);
+    recalculateWithStrategy(true, preset.proportions);
+  };
+
   const handleResetProportions = () => {
     const defaultProportions: CustomProportions = {
       cucumber: 333.33,
@@ -123,7 +134,7 @@ function App() {
     <div className="min-h-screen bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-50 transition-colors duration-300 dark:from-amber-900 dark:via-yellow-900 dark:to-orange-900">
       {/* Ancient parchment texture overlay */}
       <div
-        className="pointer-events-none fixed inset-0 opacity-20 dark:opacity-10"
+        className="pointer-events-none fixed inset-0 opacity-20 dark:opacity-10 print:hidden"
         style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-opacity='0.1'%3E%3Cpolygon fill='%23F59E0B' points='50 0 60 40 100 50 60 60 50 100 40 60 0 50 40 40'/%3E%3C/g%3E%3C/svg%3E")`,
           backgroundSize: '100px 100px',
@@ -145,7 +156,7 @@ function App() {
             </div>
           </div>
 
-          <div className="mx-auto max-w-2xl border-b border-t border-amber-300 py-4 dark:border-amber-600">
+          <div className="mx-auto max-w-2xl border-b border-t border-amber-300 py-4 dark:border-amber-600 print:hidden">
             <ThemeLanguageSelector
               theme={theme}
               language={language}
@@ -172,7 +183,7 @@ function App() {
                   ))}
                 </div>
 
-                <div className="border-t border-amber-200 pt-6 dark:border-amber-700">
+                <div className="border-t border-amber-200 pt-6 dark:border-amber-700 print:hidden">
                   <ProportionEditor
                     isCustom={isCustom}
                     proportions={customProportions}
@@ -206,9 +217,18 @@ function App() {
                 onToggleFavorite={toggleFavorite}
               />
 
+              <RatioPresetsPanel
+                t={t}
+                currentProportions={customProportions}
+                presets={presets}
+                onSave={savePreset}
+                onLoad={handleLoadPreset}
+                onDelete={deletePreset}
+              />
+
               <KofiButton t={t} />
 
-              <div className="rounded-xl border-2 border-amber-200 bg-amber-50/95 p-6 shadow-xl backdrop-blur-sm dark:border-amber-700 dark:bg-amber-900/95">
+              <div className="rounded-xl border-2 border-amber-200 bg-amber-50/95 p-6 shadow-xl backdrop-blur-sm dark:border-amber-700 dark:bg-amber-900/95 print:hidden">
                 <h3 className="mb-4 text-center font-semibold text-amber-900 dark:text-amber-100">
                   Actions
                 </h3>
@@ -224,7 +244,7 @@ function App() {
         </div>
 
         {/* Footer */}
-        <footer className="mt-16 text-center text-sm text-amber-600 dark:text-amber-400">
+        <footer className="mt-16 text-center text-sm text-amber-600 dark:text-amber-400 print:hidden">
           <div className="mx-auto max-w-2xl border-t border-amber-300 pt-6 dark:border-amber-600">
             <p>Traditional Spanish Gazpacho Recipe Calculator</p>
             <p className="mt-1 opacity-75">Preserving culinary heritage through technology</p>
