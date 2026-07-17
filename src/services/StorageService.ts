@@ -1,4 +1,4 @@
-import type { SavedRecipe, FavoriteId, CustomProportions } from '../types/Recipe';
+import type { SavedRecipe, FavoriteId, CustomProportions, RatioPreset } from '../types/Recipe';
 
 function isCustomProportions(value: unknown): value is CustomProportions {
   if (typeof value !== 'object' || value === null) return false;
@@ -10,6 +10,17 @@ function isCustomProportions(value: unknown): value is CustomProportions {
     typeof p.oliveOil === 'number' &&
     typeof p.salt === 'number' &&
     typeof p.vinegar === 'number'
+  );
+}
+
+function isRatioPreset(value: unknown): value is RatioPreset {
+  if (typeof value !== 'object' || value === null) return false;
+  const p = value as Record<string, unknown>;
+  return (
+    typeof p.id === 'string' &&
+    typeof p.name === 'string' &&
+    typeof p.isBuiltIn === 'boolean' &&
+    isCustomProportions(p.proportions)
   );
 }
 
@@ -35,6 +46,7 @@ export class StorageService {
   private readonly USER_MADE_IT_KEY = 'user-made-it';
   private readonly SAVED_RECIPES_KEY = 'gazpacho-saved-recipes';
   private readonly FAVORITE_IDS_KEY = 'gazpacho-favorite-ids';
+  private readonly RATIO_PRESETS_KEY = 'gazpacho-ratio-presets';
   private readonly STORAGE_VERSION_KEY = 'gazpacho-storage-version';
   private readonly CURRENT_VERSION = 1;
 
@@ -161,5 +173,41 @@ export class StorageService {
   private removeFavorite(id: string): void {
     const favorites = this.getFavoriteIds().filter((fid) => fid !== id);
     localStorage.setItem(this.FAVORITE_IDS_KEY, JSON.stringify(favorites));
+  }
+
+  // Persisted user-defined ratio presets. The built-in default preset is never
+  // stored here; it is synthesized by the useRatioPresets hook.
+  getRatioPresets(): RatioPreset[] {
+    const raw = localStorage.getItem(this.RATIO_PRESETS_KEY);
+    if (!raw) return [];
+    try {
+      const parsed: unknown = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.every(isRatioPreset)) {
+        return parsed;
+      }
+      console.warn('StorageService: invalid ratio-presets payload; falling back to []');
+      return [];
+    } catch {
+      console.warn('StorageService: corrupt ratio-presets JSON; falling back to []');
+      return [];
+    }
+  }
+
+  saveRatioPreset(data: { name: string; proportions: CustomProportions }): RatioPreset {
+    const preset: RatioPreset = {
+      id: crypto.randomUUID(),
+      name: data.name,
+      proportions: data.proportions,
+      isBuiltIn: false,
+    };
+    const presets = this.getRatioPresets();
+    presets.push(preset);
+    localStorage.setItem(this.RATIO_PRESETS_KEY, JSON.stringify(presets));
+    return preset;
+  }
+
+  deleteRatioPreset(id: string): void {
+    const presets = this.getRatioPresets().filter((p) => p.id !== id);
+    localStorage.setItem(this.RATIO_PRESETS_KEY, JSON.stringify(presets));
   }
 }
