@@ -7,6 +7,11 @@ Versioning: [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- `.github/dependabot.yml` — weekly automated dependency updates for the `npm` (pnpm-compatible) and `github-actions` ecosystems
+- Bundle size budget in CI: `size-limit` (`@size-limit/file`) checks the raw size of `dist/assets/index-*.js` against a 200 KB limit (current build ~186.6 KB); run locally with `pnpm size`, enforced by a new `bundle-size` job in `.github/workflows/ci.yml`
+
 ### Changed
 
 - Move strategy/proportion recalculation out of a `useEffect` and into the event handlers that change `isCustom`/`customProportions`, removing the last `react-hooks/set-state-in-effect` (and `exhaustive-deps`) eslint suppression in `App.tsx`
@@ -15,6 +20,7 @@ Versioning: [Semantic Versioning](https://semver.org/).
 ### Security
 
 - Validate `localStorage` payloads in `StorageService.getSavedRecipes`/`getFavoriteIds` with hand-rolled shape guards; corrupt or wrong-shaped data now falls back to defaults with a `console.warn` instead of injecting bad shapes into state
+- Add a strict `Content-Security-Policy` meta tag in `index.html` (static host, no server headers available): `default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; manifest-src 'self'; worker-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'`. `img-src` needed `data:` for the inline SVG background pattern in `App.tsx` (all other resources loaded self-only); verified the PWA service worker, Workbox precache/manifest, and canvas-based recipe image export still work under the policy. The Ko-fi button opens via `window.open` (a navigation, not a fetch/resource load) so it needs no CSP allowance.
 
 ### Fixed
 
