@@ -20,8 +20,8 @@ This creates a sibling directory `../gazpachator-pwa` checked out to the new bra
 
 ```bash
 cd ../gazpachator-pwa
-npm install   # if needed (node_modules not shared)
-npm run dev   # start dev server
+pnpm install   # if needed (node_modules not shared)
+pnpm dev   # start dev server
 ```
 
 All edits happen inside the worktree directory. The main checkout is unaffected.
@@ -52,13 +52,13 @@ git fetch origin --prune  # removes remote tracking ref
 
 ## Branch Naming
 
-| Type | Pattern | Example |
-|------|---------|---------|
-| Feature | `feat/<slug>` | `feat/recipe-history` |
-| Bug fix | `fix/<slug>` | `fix/theme-toggle` |
-| Documentation | `docs/<slug>` | `docs/overhaul` |
-| CI/CD | `ci/<slug>` | `ci/github-pages` |
-| Chore | `chore/<slug>` | `chore/foundation` |
+| Type          | Pattern        | Example               |
+| ------------- | -------------- | --------------------- |
+| Feature       | `feat/<slug>`  | `feat/recipe-history` |
+| Bug fix       | `fix/<slug>`   | `fix/theme-toggle`    |
+| Documentation | `docs/<slug>`  | `docs/overhaul`       |
+| CI/CD         | `ci/<slug>`    | `ci/github-pages`     |
+| Chore         | `chore/<slug>` | `chore/foundation`    |
 
 ## PR Title Format
 
@@ -67,6 +67,7 @@ git fetch origin --prune  # removes remote tracking ref
 ```
 
 Examples:
+
 - `feat(recipe-history): add save/load recipe variants`
 - `fix(storage): move user-made-it to StorageService`
 - `ci(deploy): add GitHub Pages deployment workflow`
@@ -74,7 +75,7 @@ Examples:
 
 ## Notes
 
-- `node_modules` is NOT shared between worktrees — run `npm install` in each
+- `node_modules` is NOT shared between worktrees — run `pnpm install` in each
 - Each worktree has its own `.env.local` if needed
 - Worktrees share the same `.git` directory — branches, remotes, and history are shared
 - Max recommended concurrent worktrees: 3 (to avoid confusion)

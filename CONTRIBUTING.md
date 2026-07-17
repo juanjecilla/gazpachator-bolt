@@ -11,8 +11,8 @@ git worktree add ../gazpachator-<slug> <type>/<slug>
 
 # 2. Work inside the worktree
 cd ../gazpachator-<slug>
-npm install
-npm run dev
+pnpm install
+pnpm dev
 
 # 3. Commit, push, open PR
 git push -u origin <type>/<slug>
@@ -50,10 +50,10 @@ Examples:
 Run the full quality gate locally:
 
 ```bash
-npm run lint
-npm run type-check
-npm run format:check
-npm run test:coverage
+pnpm lint
+pnpm type-check
+pnpm format:check
+pnpm test:coverage
 ```
 
 All must pass. Coverage thresholds: **80% lines/functions/statements, 75% branches** (services + hooks).

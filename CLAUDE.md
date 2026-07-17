@@ -1,6 +1,6 @@
 # Gazpachator
 
-Spanish Gazpacho recipe calculator. Vite 5 + React 18 + TypeScript + Tailwind 3.
+Spanish Gazpacho recipe calculator. Vite 7 + React 18 + TypeScript + Tailwind 3.
 Live: https://juanjecilla.github.io/gazpachator-bolt/
 
 ---
@@ -46,7 +46,7 @@ git branch -d <type>/<slug>
 
 ---
 
-## npm Scripts
+## pnpm Scripts
 
 | Script          | Purpose               |
 | --------------- | --------------------- |
@@ -104,10 +104,10 @@ git branch -d <type>/<slug>
 
 ## PR Checklist
 
-- [ ] `npm run lint` passes
-- [ ] `npm run type-check` passes
-- [ ] `npm run format:check` passes
-- [ ] `npm run test:coverage` passes (all thresholds met)
+- [ ] `pnpm lint` passes
+- [ ] `pnpm type-check` passes
+- [ ] `pnpm format:check` passes
+- [ ] `pnpm test:coverage` passes (all thresholds met)
 - [ ] No direct `localStorage` calls outside `StorageService`
 - [ ] New UI strings added in all 4 languages (`en`, `es`, `fr`, `de`)
 - [ ] `CHANGELOG.md` updated under `[Unreleased]`

@@ -59,7 +59,7 @@ create policy "own favorites" on favorite_recipe_ids
 ## SDK Install
 
 ```bash
-npm install @supabase/supabase-js@^2
+pnpm install @supabase/supabase-js@^2
 ```
 
 ## Supabase Client
@@ -112,7 +112,7 @@ export class SupabaseStorageService {
 1. Create Supabase project (free tier) at supabase.com
 2. Run SQL schema above in SQL editor
 3. Enable RLS and apply policies
-4. `npm install @supabase/supabase-js@^2`
+4. `pnpm install @supabase/supabase-js@^2`
 5. Create `src/lib/supabase.ts`
 6. Implement `SupabaseStorageService` with same public interface as `StorageService`
 7. Add `VITE_USE_SUPABASE=true` feature flag

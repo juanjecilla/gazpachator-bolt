@@ -3,16 +3,9 @@ import { StorageService } from '../services/StorageService';
 import type { Theme } from '../types/Recipe';
 
 export const useTheme = () => {
-  const [theme, setTheme] = useState<Theme>('system');
-  const [resolvedTheme, setResolvedTheme] = useState<'light' | 'dark'>('light');
   const storage = StorageService.getInstance();
-
-  useEffect(() => {
-    const savedTheme = storage.getTheme() as Theme;
-    if (savedTheme) {
-      setTheme(savedTheme);
-    }
-  }, [storage]);
+  const [theme, setTheme] = useState<Theme>(() => (storage.getTheme() as Theme) || 'system');
+  const [resolvedTheme, setResolvedTheme] = useState<'light' | 'dark'>('light');
 
   useEffect(() => {
     const applyTheme = () => {

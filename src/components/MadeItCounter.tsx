@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Heart } from 'lucide-react';
 import { StorageService } from '../services/StorageService';
 
@@ -7,14 +7,9 @@ interface MadeItCounterProps {
 }
 
 export const MadeItCounter: React.FC<MadeItCounterProps> = ({ t }) => {
-  const [count, setCount] = useState(0);
-  const [hasUserMadeIt, setHasUserMadeIt] = useState(false);
   const storage = StorageService.getInstance();
-
-  useEffect(() => {
-    setCount(storage.getMadeCount());
-    setHasUserMadeIt(storage.getUserMadeIt());
-  }, [storage]);
+  const [count, setCount] = useState(() => storage.getMadeCount());
+  const [hasUserMadeIt, setHasUserMadeIt] = useState(() => storage.getUserMadeIt());
 
   const handleMadeIt = () => {
     if (!hasUserMadeIt) {

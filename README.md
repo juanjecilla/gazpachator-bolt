@@ -29,27 +29,27 @@
 ```bash
 git clone git@github.com:juanjecilla/gazpachator-bolt.git
 cd gazpachator-bolt
-npm install
-npm run dev        # http://localhost:5173
+pnpm install
+pnpm dev        # http://localhost:5173
 ```
 
 ## Available Scripts
 
-| Script                  | Purpose                       |
-| ----------------------- | ----------------------------- |
-| `npm run dev`           | Start Vite dev server         |
-| `npm run build`         | Production build              |
-| `npm run preview`       | Preview production build      |
-| `npm run lint`          | ESLint check                  |
-| `npm run lint:fix`      | ESLint autofix                |
-| `npm run format`        | Prettier write                |
-| `npm run format:check`  | Prettier check (used in CI)   |
-| `npm run type-check`    | TypeScript check with no emit |
-| `npm run test`          | Vitest unit tests             |
-| `npm run test:watch`    | Vitest watch mode             |
-| `npm run test:coverage` | Vitest + v8 coverage report   |
-| `npm run test:e2e`      | Playwright end-to-end tests   |
-| `npm run test:e2e:ui`   | Playwright UI mode            |
+| Script               | Purpose                       |
+| -------------------- | ----------------------------- |
+| `pnpm dev`           | Start Vite dev server         |
+| `pnpm build`         | Production build              |
+| `pnpm preview`       | Preview production build      |
+| `pnpm lint`          | ESLint check                  |
+| `pnpm lint:fix`      | ESLint autofix                |
+| `pnpm format`        | Prettier write                |
+| `pnpm format:check`  | Prettier check (used in CI)   |
+| `pnpm type-check`    | TypeScript check with no emit |
+| `pnpm test`          | Vitest unit tests             |
+| `pnpm test:watch`    | Vitest watch mode             |
+| `pnpm test:coverage` | Vitest + v8 coverage report   |
+| `pnpm test:e2e`      | Playwright end-to-end tests   |
+| `pnpm test:e2e:ui`   | Playwright UI mode            |
 
 ## Tech Stack
 
