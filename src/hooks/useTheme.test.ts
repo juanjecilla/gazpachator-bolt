@@ -59,4 +59,35 @@ describe('useTheme', () => {
     });
     expect(document.documentElement.classList.contains('dark')).toBe(false);
   });
+
+  it('drops the dark class for the duration of printing, then restores it', () => {
+    const { result } = renderHook(() => useTheme());
+    act(() => {
+      result.current.changeTheme('dark');
+    });
+    expect(document.documentElement.classList.contains('dark')).toBe(true);
+
+    act(() => {
+      window.dispatchEvent(new Event('beforeprint'));
+    });
+    expect(document.documentElement.classList.contains('dark')).toBe(false);
+
+    act(() => {
+      window.dispatchEvent(new Event('afterprint'));
+    });
+    expect(document.documentElement.classList.contains('dark')).toBe(true);
+  });
+
+  it('does not re-add the dark class after printing when the resolved theme is light', () => {
+    const { result } = renderHook(() => useTheme());
+    act(() => {
+      result.current.changeTheme('light');
+    });
+
+    act(() => {
+      window.dispatchEvent(new Event('beforeprint'));
+      window.dispatchEvent(new Event('afterprint'));
+    });
+    expect(document.documentElement.classList.contains('dark')).toBe(false);
+  });
 });

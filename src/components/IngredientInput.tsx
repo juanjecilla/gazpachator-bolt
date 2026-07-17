@@ -49,7 +49,7 @@ export const IngredientInput: React.FC<IngredientInputProps> = ({
           onChange={handleChange}
           onKeyDown={handleKeyDown}
           disabled={disabled}
-          className="flex-1 rounded-md border border-amber-300 bg-amber-50 px-3 py-2 text-amber-900 shadow-sm transition-colors duration-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-500 disabled:cursor-not-allowed disabled:opacity-50 dark:border-amber-600 dark:bg-amber-900/30 dark:text-amber-100"
+          className="flex-1 rounded-md border border-amber-300 bg-amber-50 px-3 py-2 text-amber-900 shadow-sm transition-colors duration-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-500 disabled:cursor-not-allowed disabled:opacity-50 dark:border-amber-600 dark:bg-amber-900/30 dark:text-amber-100 print:border-0 print:bg-transparent print:p-0 print:font-semibold print:text-black print:shadow-none print:[appearance:textfield] print:[&::-webkit-inner-spin-button]:appearance-none print:[&::-webkit-outer-spin-button]:appearance-none"
         />
         <span className="min-w-[24px] text-sm font-medium text-amber-700 dark:text-amber-300">
           {ingredient.unit}
