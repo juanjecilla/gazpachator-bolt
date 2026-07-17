@@ -35,4 +35,38 @@ describe('ExportShare', () => {
 
     expect(print).toHaveBeenCalledOnce();
   });
+
+  it('renders a JSON export button', () => {
+    render(<ExportShare recipe={recipe} t={t} />);
+    expect(screen.getByTestId('export-json-button')).toBeInTheDocument();
+  });
+
+  it('clicking the JSON export button downloads a .json file and revokes the object URL', async () => {
+    const createObjectURL = vi.fn(() => 'blob:mock-url');
+    const revokeObjectURL = vi.fn();
+    vi.stubGlobal('URL', { ...URL, createObjectURL, revokeObjectURL });
+
+    const originalCreateElement = document.createElement.bind(document);
+    const anchor = originalCreateElement('a');
+    const clickSpy = vi.fn();
+    anchor.click = clickSpy;
+    const createElementSpy = vi
+      .spyOn(document, 'createElement')
+      .mockImplementation((tagName: string) =>
+        tagName === 'a' ? anchor : originalCreateElement(tagName)
+      );
+
+    render(<ExportShare recipe={recipe} t={t} />);
+    await userEvent.click(screen.getByTestId('export-json-button'));
+
+    expect(createObjectURL).toHaveBeenCalledOnce();
+    const blobArg = createObjectURL.mock.calls[0][0] as Blob;
+    expect(blobArg.type).toBe('application/json');
+
+    expect(anchor.download).toBe('juanje-gazpacho-recipe.json');
+    expect(clickSpy).toHaveBeenCalledOnce();
+    expect(revokeObjectURL).toHaveBeenCalledWith('blob:mock-url');
+
+    createElementSpy.mockRestore();
+  });
 });
