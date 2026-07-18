@@ -60,6 +60,8 @@ Second round, planned in each repo's `docs/handoff-features-v2.md` — **same F-
 
 Each doc also carries repo-specific B (i18n/a11y/hygiene) and C (test gap-fill) sections. All items `static-ok`. Suggested order: B → C → A, with Scaler's B1 prune first (bundle headroom for F3/F4).
 
+Docs PRs: bolt [#34](https://github.com/juanjecilla/gazpachator-bolt/pull/34), v0 [#29](https://github.com/juanjecilla/gazpachator-v0/pull/29), Scaler [#32](https://github.com/juanjecilla/GazpachoScaler/pull/32).
+
 ## PRs from the alignment session (2026-07-17)
 
 - GazpachoScaler [#9](https://github.com/juanjecilla/GazpachoScaler/pull/9) — dead server code removal + standards
