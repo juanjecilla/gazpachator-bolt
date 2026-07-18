@@ -21,6 +21,7 @@ Versioning: [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- `docs/ALIGNMENT.md` refreshed after the 2026-07-18 tooling-parity pass (bolt #32, v0 #28, Scaler #31): shared standards now record e2e/coverage-in-CI/bundle-budget/CSP/docs parity across all three repos; completed follow-ups struck through; blocked dependabot majors listed
 - Tooling parity with sibling repos: `lint` now fails on warnings (`--max-warnings 0`, matching the pre-commit hook and both sibling repos) and `format`/`format:check` cover the whole repo (`prettier … .`) instead of `src/**` + root files; `.prettierignore` extended with `test-results`, `pnpm-lock.yaml`, `.bolt`; docs under `docs/` reformatted accordingly
 - Move strategy/proportion recalculation out of a `useEffect` and into the event handlers that change `isCustom`/`customProportions`, removing the last `react-hooks/set-state-in-effect` (and `exhaustive-deps`) eslint suppression in `App.tsx`
 - Type translation keys: `t()` now accepts a `TranslationKey` union derived from the English table, so unknown keys fail `type-check`; `Ingredient.name`/`unit` are typed as translation keys

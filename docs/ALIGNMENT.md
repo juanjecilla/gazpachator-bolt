@@ -15,15 +15,17 @@ Three sibling repos implement the same product (gazpacho recipe scaling calculat
 - **Toolchain:** Vite 7 / Vitest 4 / jsdom 29 (bolt + Scaler); Next 15.5 + Vitest 4 (v0)
 - **Lint/format:** ESLint 9 flat config, `--max-warnings 0`; Prettier with tailwindcss plugin
 - **Hooks:** Husky + lint-staged pre-commit (eslint --fix + prettier on staged files)
-- **Tests:** Vitest + Testing Library; coverage thresholds **80% lines/functions/statements, 75% branches**
-- **E2E:** Playwright (bolt has it; v0 + Scaler tracked in their `docs/handoff-e2e.md`)
-- **CI shape:** `ci.yml` = install → type-check → lint → format:check → test(:coverage) [→ build]; `deploy.yml` = build → GitHub Pages (actions/deploy-pages@v4)
-- **Meta:** MIT LICENSE, package.json description/author/repository/homepage, CLAUDE.md, Conventional Commits, PR-based flow (no direct main commits)
+- **Tests:** Vitest + Testing Library; coverage thresholds **80% lines/functions/statements, 75% branches** — enforced in CI via `test:coverage` in all three (Scaler since its PR #31)
+- **E2E:** Playwright in all three (`e2e/`, chromium, run against the production build/basePath in CI)
+- **CI shape:** `ci.yml` = install → type-check → lint → format:check → test:coverage [→ build] + `e2e` + bundle-size gate; `deploy.yml` = build → GitHub Pages (actions/deploy-pages@v4)
+- **Bundle budgets:** `size-limit` raw JS in all three — bolt 200 KB (`dist/assets/index-*.js`), v0 990 KB (`out/_next/static/chunks/**/*.js`, Next framework + polyfills included), Scaler 340 KB (`dist/assets/index-*.js`)
+- **CSP:** meta tag in all three. bolt: strict `'self'`-only. v0: production-only (`next dev` needs `'unsafe-eval'`), `script-src`/`style-src` add `'unsafe-inline'` (Next inline bootstrap + inline font style). Scaler: adds Google Fonts hosts + `'unsafe-inline'` style-src (Radix inline positioning).
+- **Meta:** MIT LICENSE, package.json description/author/repository/homepage, CLAUDE.md, CHANGELOG.md, CONTRIBUTING.md, Conventional Commits, PR-based flow (no direct main commits), dependabot (npm + github-actions, weekly)
 - **Security baseline:** `pnpm audit` clean in all three (overrides pinned where transitive: `zod-validation-error@^4` in bolt/Scaler, `lodash`/`postcss`/`tar` in v0)
 
 ## Feature parity matrix (historical snapshot: post-alignment, before ports)
 
-> **2026-07-18:** all `static-ok` port and e2e backlogs were executed — every feature row below now ships in all three repos. Kept as a record of the starting point.
+> **2026-07-18:** all `static-ok` port and e2e backlogs were executed — every feature row below now ships in all three repos. A same-day tooling-parity pass (bolt #32, v0 #28, Scaler #31) closed the remaining tooling gaps: CI-enforced lint warnings + repo-wide prettier (bolt), size budget + CSP + contributor docs (v0), CI-enforced coverage + CSP + changelog (Scaler). Matrix kept as a record of the starting point.
 
 | Feature                                   | bolt           | v0         | Scaler                |
 | ----------------------------------------- | -------------- | ---------- | --------------------- |
@@ -55,14 +57,15 @@ Port plans live in each repo's `docs/handoff-feature-parity.md`. Union target: e
 
 Priority to `static-ok` items; `needs-backend` items are recorded but deferred.
 
-1. `static-ok` Feature ports per matrix above
-2. `static-ok` Playwright e2e for v0 + Scaler
-3. `static-ok` Validate localStorage payloads on read (all repos parse JSON unvalidated; corrupt data can break state)
-4. `static-ok` Prune unused dependencies (v0 and Scaler carry large unused Radix/shadcn/chart dep sets; Scaler main bundle 328 KB raw)
-5. `static-ok` Dependabot/Renovate in all three
+1. ~~`static-ok` Feature ports per matrix above~~ done 2026-07-18
+2. ~~`static-ok` Playwright e2e for v0 + Scaler~~ done 2026-07-18
+3. ~~`static-ok` Validate localStorage payloads on read~~ done 2026-07-18 (storage guards)
+4. `static-ok` Prune unused dependencies (v0 and Scaler carry large unused Radix/shadcn/chart dep sets)
+5. ~~`static-ok` Dependabot/Renovate in all three~~ done 2026-07-18
 6. `static-ok` v0: decide fate of the still-connected Vercel project (auto-deploys on push; GH Pages is now canonical)
-7. `needs-backend` Global "made it" counter (see Scaler `docs/future-supabase-migration.md`, bolt `docs/backend-alternatives/`)
-8. `needs-backend` Shared community ratio presets
+7. `static-ok` Blocked dependabot majors, need manual migration: v0 #11/#17 (next/eslint-config-next 16 — native flat config vs FlatCompat), Scaler #19 (react 19 — +50 KB over budget), #23 (TS 6 — `baseUrl` error), #24 (tailwind 4 — PostCSS migration)
+8. `needs-backend` Global "made it" counter (see Scaler `docs/future-supabase-migration.md`, bolt `docs/backend-alternatives/`)
+9. `needs-backend` Shared community ratio presets
 
 ## Notes for future agents
 
