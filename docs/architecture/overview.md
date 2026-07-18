@@ -33,14 +33,14 @@ RecipeCalculatorService
 
 Default proportions per 1000g tomato:
 
-| Ingredient | Amount |
-|-----------|--------|
-| Cucumber | 333.33g |
+| Ingredient   | Amount  |
+| ------------ | ------- |
+| Cucumber     | 333.33g |
 | Green Pepper | 166.67g |
-| Garlic | 12g |
-| Olive Oil | 15g |
-| Salt | 6g |
-| Vinegar | 18g |
+| Garlic       | 12g     |
+| Olive Oil    | 15g     |
+| Salt         | 6g      |
+| Vinegar      | 18g     |
 
 ### StorageService (`src/services/StorageService.ts`)
 
@@ -50,11 +50,11 @@ Methods: `getMadeCount`, `incrementMadeCount`, `getUserMadeIt`, `setUserMadeIt`,
 
 ## Hooks
 
-| Hook | Responsibility |
-|------|---------------|
-| `useTheme` | Theme state, `<html>` class toggling, system preference detection |
-| `useLanguage` | Language state, browser detection, `t(key)` translation function |
-| `useRecipeHistory` | Saved recipes + favorites state, wraps StorageService CRUD |
+| Hook               | Responsibility                                                    |
+| ------------------ | ----------------------------------------------------------------- |
+| `useTheme`         | Theme state, `<html>` class toggling, system preference detection |
+| `useLanguage`      | Language state, browser detection, `t(key)` translation function  |
+| `useRecipeHistory` | Saved recipes + favorites state, wraps StorageService CRUD        |
 
 ## Data Flow
 
@@ -79,12 +79,12 @@ User loads saved recipe
 
 ## localStorage Schema
 
-| Key | Type | Default | Added |
-|-----|------|---------|-------|
-| `gazpacho-made-count` | number (string) | `"0"` | v1.0 |
-| `gazpacho-theme` | `light\|dark\|system` | null | v1.0 |
-| `gazpacho-language` | `en\|es\|fr\|de` | null | v1.0 |
-| `user-made-it` | `"true"` | null | v1.0 |
-| `gazpacho-saved-recipes` | JSON `SavedRecipe[]` | `"[]"` | v1.0 |
-| `gazpacho-favorite-ids` | JSON `string[]` | `"[]"` | v1.0 |
-| `gazpacho-storage-version` | number (string) | `"1"` | v1.0 |
+| Key                        | Type                  | Default | Added |
+| -------------------------- | --------------------- | ------- | ----- |
+| `gazpacho-made-count`      | number (string)       | `"0"`   | v1.0  |
+| `gazpacho-theme`           | `light\|dark\|system` | null    | v1.0  |
+| `gazpacho-language`        | `en\|es\|fr\|de`      | null    | v1.0  |
+| `user-made-it`             | `"true"`              | null    | v1.0  |
+| `gazpacho-saved-recipes`   | JSON `SavedRecipe[]`  | `"[]"`  | v1.0  |
+| `gazpacho-favorite-ids`    | JSON `string[]`       | `"[]"`  | v1.0  |
+| `gazpacho-storage-version` | number (string)       | `"1"`   | v1.0  |
