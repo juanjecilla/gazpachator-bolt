@@ -25,7 +25,7 @@ Three sibling repos implement the same product (gazpacho recipe scaling calculat
 
 ## Feature parity matrix (historical snapshot: post-alignment, before ports)
 
-> **2026-07-18:** all `static-ok` port and e2e backlogs were executed — every feature row below now ships in all three repos. A same-day tooling-parity pass (bolt #32, v0 #28, Scaler #31) closed the remaining tooling gaps: CI-enforced lint warnings + repo-wide prettier (bolt), size budget + CSP + contributor docs (v0), CI-enforced coverage + CSP + changelog (Scaler). Matrix kept as a record of the starting point.
+> **2026-07-18:** all `static-ok` port and e2e backlogs were executed — every feature row below now ships in all three repos, **with one verified exception: v0 never got JSON export** (only Share + `.txt`; fixed by F1 in the features-v2 round below). A same-day tooling-parity pass (bolt #32, v0 #28, Scaler #31) closed the remaining tooling gaps: CI-enforced lint warnings + repo-wide prettier (bolt), size budget + CSP + contributor docs (v0), CI-enforced coverage + CSP + changelog (Scaler). Matrix kept as a record of the starting point. Post-pass extras that never reached parity: PNG recipe-image export (bolt only), copy-link + share-social (Scaler only), servings as an input control (nowhere — estimate labels only). Scaler has since moved to Vite 8 (dependabot #18).
 
 | Feature                                   | bolt           | v0         | Scaler                |
 | ----------------------------------------- | -------------- | ---------- | --------------------- |
@@ -47,6 +47,19 @@ Three sibling repos implement the same product (gazpacho recipe scaling calculat
 
 Port plans live in each repo's `docs/handoff-feature-parity.md`. Union target: every row ✅ in all three (visuals per-platform).
 
+## Features v2 (2026-07-18)
+
+Second round, planned in each repo's `docs/handoff-features-v2.md` — **same F-IDs in all three docs**; the F1 JSON schema and F4 `?r=` encoding spec are spelled out identically in each (canonical ingredient ids `tomato, cucumber, greenPepper, garlic, oliveOil, salt, vinegar`; Scaler maps `jerezVinegar` ↔ `vinegar` at its codec boundary).
+
+| ID  | Feature                                        | bolt          | v0              | Scaler |
+| --- | ---------------------------------------------- | ------------- | --------------- | ------ |
+| F1  | JSON export/import (shared schema)             | import        | export + import | import |
+| F2  | Serving-size selector (250 ml/serving, pinned) | new           | new             | new    |
+| F3  | PNG recipe-image export                        | i18n fix only | new (port)      | new    |
+| F4  | Shareable recipe URLs (`?r=` base64url)        | new           | new             | new    |
+
+Each doc also carries repo-specific B (i18n/a11y/hygiene) and C (test gap-fill) sections. All items `static-ok`. Suggested order: B → C → A, with Scaler's B1 prune first (bundle headroom for F3/F4).
+
 ## PRs from the alignment session (2026-07-17)
 
 - GazpachoScaler [#9](https://github.com/juanjecilla/GazpachoScaler/pull/9) — dead server code removal + standards
@@ -57,15 +70,17 @@ Port plans live in each repo's `docs/handoff-feature-parity.md`. Union target: e
 
 Priority to `static-ok` items; `needs-backend` items are recorded but deferred.
 
-1. ~~`static-ok` Feature ports per matrix above~~ done 2026-07-18
+1. ~~`static-ok` Feature ports per matrix above~~ done 2026-07-18 (except v0 JSON export → features-v2 F1)
 2. ~~`static-ok` Playwright e2e for v0 + Scaler~~ done 2026-07-18
 3. ~~`static-ok` Validate localStorage payloads on read~~ done 2026-07-18 (storage guards)
-4. `static-ok` Prune unused dependencies (v0 and Scaler carry large unused Radix/shadcn/chart dep sets)
+4. `static-ok` Prune unused dependencies — v0 done 2026-07-18; Scaler round 2 planned (features-v2 B1: 6 unused shadcn ui files + 4 radix deps, unused i18n keys, unused tailwind tokens)
 5. ~~`static-ok` Dependabot/Renovate in all three~~ done 2026-07-18
 6. `static-ok` v0: decide fate of the still-connected Vercel project (auto-deploys on push; GH Pages is now canonical)
-7. `static-ok` Blocked dependabot majors, need manual migration: v0 #11/#17 (next/eslint-config-next 16 — native flat config vs FlatCompat), Scaler #19 (react 19 — +50 KB over budget), #23 (TS 6 — `baseUrl` error), #24 (tailwind 4 — PostCSS migration)
-8. `needs-backend` Global "made it" counter (see Scaler `docs/future-supabase-migration.md`, bolt `docs/backend-alternatives/`)
-9. `needs-backend` Shared community ratio presets
+7. `static-ok` Features v2 backlogs (`docs/handoff-features-v2.md` in each repo) — F1–F4 + i18n/a11y completion + test gap-fill
+8. `chore-migration` Blocked dependabot majors, need manual migration: v0 #11/#17 (next/eslint-config-next 16 — native flat config vs FlatCompat), Scaler #19 (react 19 — +50 KB over budget), #23 (TS 6 — `baseUrl` error), #24 (tailwind 4 — PostCSS migration)
+9. `needs-backend` Global "made it" counter (see Scaler `docs/future-supabase-migration.md`, bolt `docs/backend-alternatives/`)
+10. `needs-backend` Shared community ratio presets
+11. Considered & deferred: metric/imperial unit toggle — gram-native Spanish recipe; low value vs rounding drift + translation/bundle cost. Revisit only on user demand.
 
 ## Notes for future agents
 
