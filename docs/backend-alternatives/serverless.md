@@ -36,7 +36,9 @@ export default {
     return new Response('Not found', { status: 404 });
   },
 };
-interface Env { COUNTER: KVNamespace; }
+interface Env {
+  COUNTER: KVNamespace;
+}
 ```
 
 Deploy: `wrangler kv:namespace create COUNTER && wrangler deploy`
@@ -73,12 +75,12 @@ jobs:
 
 ## Comparison
 
-| | Cloudflare Worker | GitHub Actions |
-|--|--|--|
-| Real-time | Yes | No |
-| Cost | Free (100k req/day) | Free |
-| Setup | Medium | Low |
-| Rate limiting | IP-based KV lock | N/A |
+|               | Cloudflare Worker   | GitHub Actions |
+| ------------- | ------------------- | -------------- |
+| Real-time     | Yes                 | No             |
+| Cost          | Free (100k req/day) | Free           |
+| Setup         | Medium              | Low            |
+| Rate limiting | IP-based KV lock    | N/A            |
 
 ## Migration Checklist (Cloudflare Worker)
 

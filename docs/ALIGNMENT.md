@@ -2,11 +2,11 @@
 
 Three sibling repos implement the same product (gazpacho recipe scaling calculator) on different stacks. Designs intentionally differ per platform — **never align visuals**, only functionality, tooling, and practices.
 
-| Repo | Stack | Live |
-|------|-------|------|
-| [gazpachator-bolt](https://github.com/juanjecilla/gazpachator-bolt) | Vite 7 + React 18 + TS + Tailwind 3 | https://juanjecilla.github.io/gazpachator-bolt/ |
-| [gazpachator-v0](https://github.com/juanjecilla/gazpachator-v0) | Next.js 15 (static export) + React 19 + Tailwind 4 + shadcn/ui | https://juanjecilla.github.io/gazpachator-v0/ |
-| [GazpachoScaler](https://github.com/juanjecilla/GazpachoScaler) | Vite 7 + React 18 + TS + Tailwind 3 + shadcn/ui | https://juanjecilla.github.io/GazpachoScaler/ |
+| Repo                                                                | Stack                                                          | Live                                            |
+| ------------------------------------------------------------------- | -------------------------------------------------------------- | ----------------------------------------------- |
+| [gazpachator-bolt](https://github.com/juanjecilla/gazpachator-bolt) | Vite 7 + React 18 + TS + Tailwind 3                            | https://juanjecilla.github.io/gazpachator-bolt/ |
+| [gazpachator-v0](https://github.com/juanjecilla/gazpachator-v0)     | Next.js 15 (static export) + React 19 + Tailwind 4 + shadcn/ui | https://juanjecilla.github.io/gazpachator-v0/   |
+| [GazpachoScaler](https://github.com/juanjecilla/GazpachoScaler)     | Vite 7 + React 18 + TS + Tailwind 3 + shadcn/ui                | https://juanjecilla.github.io/GazpachoScaler/   |
 
 ## Shared standards (as of 2026-07-17 alignment)
 
@@ -25,23 +25,23 @@ Three sibling repos implement the same product (gazpacho recipe scaling calculat
 
 > **2026-07-18:** all `static-ok` port and e2e backlogs were executed — every feature row below now ships in all three repos. Kept as a record of the starting point.
 
-| Feature | bolt | v0 | Scaler |
-|---|---|---|---|
-| Proportional scaling from any ingredient | ✅ | ✅ | ✅ |
-| Custom proportions editor (percent-based) | ✅ | — | partial (custom mode) |
-| Named ratio presets (save/load/delete) | — | ✅ | — |
-| Recipe history + favorites | ✅ | — | — |
-| Volume estimation | ✅ | ✅ | ✅ |
-| Servings estimate | — | ✅ | — |
-| "Made it" counter | ✅ | ✅ | ✅ |
-| Export text / share API | ✅ | ✅ | ✅ (JSON) |
-| Print recipe + print CSS | — | — | ✅ |
-| PWA (offline, install, update prompt) | ✅ | — | — |
-| OG meta + emoji favicon | ✅ (SEO phase) | — | ✅ |
-| Theme light/dark (+system in bolt) | ✅ | ✅ | ✅ |
-| i18n en/es/fr/de | ✅ | ✅ | ✅ |
-| Unit tests | ✅ 45 | ✅ 30 | ✅ 41 |
-| Playwright e2e | ✅ | ⏳ handoff | ⏳ handoff |
+| Feature                                   | bolt           | v0         | Scaler                |
+| ----------------------------------------- | -------------- | ---------- | --------------------- |
+| Proportional scaling from any ingredient  | ✅             | ✅         | ✅                    |
+| Custom proportions editor (percent-based) | ✅             | —          | partial (custom mode) |
+| Named ratio presets (save/load/delete)    | —              | ✅         | —                     |
+| Recipe history + favorites                | ✅             | —          | —                     |
+| Volume estimation                         | ✅             | ✅         | ✅                    |
+| Servings estimate                         | —              | ✅         | —                     |
+| "Made it" counter                         | ✅             | ✅         | ✅                    |
+| Export text / share API                   | ✅             | ✅         | ✅ (JSON)             |
+| Print recipe + print CSS                  | —              | —          | ✅                    |
+| PWA (offline, install, update prompt)     | ✅             | —          | —                     |
+| OG meta + emoji favicon                   | ✅ (SEO phase) | —          | ✅                    |
+| Theme light/dark (+system in bolt)        | ✅             | ✅         | ✅                    |
+| i18n en/es/fr/de                          | ✅             | ✅         | ✅                    |
+| Unit tests                                | ✅ 45          | ✅ 30      | ✅ 41                 |
+| Playwright e2e                            | ✅             | ⏳ handoff | ⏳ handoff            |
 
 Port plans live in each repo's `docs/handoff-feature-parity.md`. Union target: every row ✅ in all three (visuals per-platform).
 

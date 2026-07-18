@@ -5,16 +5,17 @@ This directory documents three approaches to make them truly global.
 
 ## Comparison
 
-| Option | File | Cost | Real-time | Complexity | PRs needed |
-|--------|------|------|-----------|------------|------------|
-| Firebase Firestore | [firebase.md](./firebase.md) | Free tier | Yes | Low | ~3 |
-| Supabase Postgres | [supabase.md](./supabase.md) | Free tier | Yes | Low | ~3 |
-| Cloudflare Worker | [serverless.md](./serverless.md) | Free | Yes | Medium | ~2 |
-| GitHub Actions JSON | [serverless.md](./serverless.md) | Free | No | Low | ~1 |
+| Option              | File                             | Cost      | Real-time | Complexity | PRs needed |
+| ------------------- | -------------------------------- | --------- | --------- | ---------- | ---------- |
+| Firebase Firestore  | [firebase.md](./firebase.md)     | Free tier | Yes       | Low        | ~3         |
+| Supabase Postgres   | [supabase.md](./supabase.md)     | Free tier | Yes       | Low        | ~3         |
+| Cloudflare Worker   | [serverless.md](./serverless.md) | Free      | Yes       | Medium     | ~2         |
+| GitHub Actions JSON | [serverless.md](./serverless.md) | Free      | No        | Low        | ~1         |
 
 ## Recommendation
 
 **Supabase** is the easiest migration path:
+
 - Postgres gives relational integrity (foreign keys, unique constraints)
 - Row Level Security means no custom auth middleware
 - Anonymous auth requires zero user signup
